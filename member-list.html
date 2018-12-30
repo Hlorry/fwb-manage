@@ -60,7 +60,7 @@
             搜用户
         </button>
     </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong id="total"></strong> 条</span></div>
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong></strong> 条</span></div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
@@ -74,25 +74,10 @@
                 <th width="130">加入时间</th>
                 <th width="70">认证状态</th>
                 <th width="70">审核状态</th>
-                <th width="100">操作</th>
+                <th width="70">封禁状态</th>
+                <th width="30">操作</th>
             </tr>
             </thead>
-            <tbody id="t_body">
-            <!--<tr class="text-c">
-                <td><input type="checkbox" value="userId" name=""></td>
-                <td>userId</td>
-                <td><u style="cursor:pointer" class="text-primary"
-                       onclick="member_show('张三','member-show.html','10001','360','400')">userName</u></td>
-                <td>gender</td>
-                <td>nickName</td>
-                <td>email</td>
-                <td class="text-l">createTime</td>
-                <td class="td-status"><span class="label label-success radius">check</span></td>
-                <td class="td-status"><span class="label label-success radius">certificate</span></td>
-                <td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')"
-                                         href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a></td>
-            </tr>
-            </tbody>-->
         </table>
     </div>
 </div>
@@ -110,93 +95,122 @@
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
     $(function () {
-        $('.table-sort').dataTable({
-            "aaSorting": [[1, "desc"]],//默认第几个排序
-            "bStateSave": true,//状态保存
-            "bServerSide": true,
-            "sAjaxSource": {
+
+        var oTable = $('.table-sort').dataTable({
+            "Sorting": [[1, "desc"]],//默认第几个排序
+            "StateSave": true,//状态保存
+            "ServerSide": true,
+            "pagingType": "full_numbers",
+            "ajax": {
                 "url": apiHost + "manage/user/list",
-                "method":"post",
-                "dataSrc": "users"
+                "method": "post",
+                data: {
+                    "mtoken": sessionStorage.getItem('mToken'),
+                    "userName": $("#userName").val(),
+                    "email": $("#email").val(),
+                    "nickName": $("#nickName").val(),
+                    "gender": $("#gender").val(),
+                    "userId": $("#userId").val(),
+                    "check": $("#check").val(),
+                    "certificate": $("#certificate").val()
+                },
+                //用于处理服务器端返回的数据。 dataSrc是DataTable特有的
+                dataSrc: function (datas) {
+                    console.log(datas);
+                    if (datas.code == 2001) {
+                        window.location.href = "login.html";
+                    }
+                    return datas.data.users;
+                }
             },
-            "fnServerParams": function ( aoData ) {
-                aoData.push( {"mtoken": sessionStorage.getItem('mToken'), "userName": $("#userName").val(), "email": $("#email").val(),"nickName": $("#nickName").val(),"gender": $("#gender").val(),"userId": $("#userId").val(),"check": $("#check").val(),"certificate": $("#certificate").val()} );
-            },
-            "aoColumns": [
-                {},
-                { "mData": "<input type=‘checkbox’ value=‘userId>", "sClass": "center" },
-                { "mData": "userId", "sClass": "center" },
-                { "mData": "gender", "sClass": "center" },
-                { "mData": "nickName", "sClass": "center" },
-                { "mData": "email", "sClass": "center" },
-                { "mData": "teacher_phone", "sClass": "center" },
-                { "mData": "teacher_email", "sClass": "center" },
-                { "mData": "admin_id", "sClass": "center" }
+            "columns": [
+                {
+                    "render": function (data, type, row, meta) {
+                        return '<input type="checkbox" value="' + row.userId + '" name="">';
+                    },
+                },
+                {
+                    "data": "userId",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
+                    }
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        var ret = row.gender == undefined ? "默认" : row.gender == 1 ? "男" : "女";
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                },
+                {
+                    "data": "nickName",
+                },
+                {
+                    "data": "email",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        return timestampToTime(row.createTime);
+                    }
+                },
+                {
+                    "class": "td-status td-certificate",
+                    "render": function (data, type, row, meta) {
+                        var ret;
+                        if(row.certificate==0){
+                            ret="未认证";
+                        }else if(row.certificate==1){
+                            ret="已通过";
+                        }else if(row.certificate==-1){
+                            ret="未通过";
+                        }else if(row.certificate==2){
+                            ret="认证中";
+                        }
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                },{
+                    "class": "td-status td-check",
+                    "render": function (data, type, row, meta) {
+                        var ret;
+                        if(row.checked==0){
+                            ret="审核中";
+                        }else if(row.checked==1){
+                            ret="已通过";
+                        }else if(row.certificate==-1){
+                            ret="未通过";
+                        }
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                }, {
+                    "class": "td-status td-ban",
+                    "render": function (data, type, row, meta) {
+                        var ret = row.isban == 1 ? "已封禁" : "正常";
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                },
+                {
+                    //"data": "certificate",
+                    "render": function (data, type, row, meta) {
+                        if (row.isban == 0) {
+                            return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                        } else {
+                            return '<a style="text-decoration:none" onClick="member_start(this,' + row.userId + ')"href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>';
+                        }
+                    },
+                },
 
             ],
+
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
                 {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
 
-        //search();
-
-        $('#search').on('click', function () {
-            //search();
-        })
-
-        function search() {
-            var userName = $("#userName").val();
-            var email = $("#email").val();
-            var nickName = $("#nickName").val();
-            var gender = $("#gender").val();
-            var userId = $("#userId").val();
-            var check = $("#check").val();
-            var certificate = $("#certificate").val();
-
-            $.ajax({
-                url: apiHost + "manage/user/list",
-                data: {
-                    "mtoken": sessionStorage.getItem('mToken'),
-                    "userName": userName,
-                    "email": email,
-                    "nickName": nickName,
-                    "gender": gender,
-                    "userId": userId,
-                    "check": check,
-                    "certificate": certificate,
-                },
-                type: "post",
-                dataType: "Json",
-                success: function (data) {
-                    console.log(data);
-                    if (data != null && data.code == 200) {
-                        $("#total").html(data.count)
-                        var html = "";
-                        for (var i = 0; i < data.data.users.length; i++) {
-                        var temp = data.data.users[i];
-                        //html += `<tr >${temp.userId}</tr>`
-                        html +='<tr class="text-c">' +
-                                '<td><input type="checkbox" value="' + temp.userId + '" name=""></td>' +
-                                '<td>' + temp.userId + '</td>' +
-                                '<td><u style="cursor:pointer" class="text-primary" onclick="member_show(' + temp.userName + ',' + temp.userId + ')">' + temp.userName + '</u></td>' +
-                                '<td>' + (temp.gender == 0 ? "默认" : temp.gender == 1 ? "男" : "女") + '</td>' +
-                                '<td>' + temp.nickName + '</td>' +
-                                '<td>' + temp.email + '</td>' +
-                                '<td class="text-l">' + timestampToTime(temp.createTime) + '</td>' +
-                                '<td class="td-status"><span class="label label-success radius">' + (temp.certificate == 1 ? "认证中" : "未认证") + '</span></td>' +
-                                '<td class="td-status"><span class="label label-success radius">' + (temp.checked == 0 ? "审核中" : temp.checked == 1 ? "通过" : "未通过")+ '</span></td>' +
-                                '<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,' + temp.userId + ')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> </td>' +
-                            '</tr>';
-                        }
-                        $("#t_body").append(html);
-                    } else if (data.code = 2000) {
-                        window.location.href = "login.html";
-                    }
-                }
-            })
-        }
+        $("#search").bind("click", function () { //点击按钮 触发table重新请求服务器
+            oTable.fnDraw(true);
+        });
 
     });
 
@@ -204,16 +218,18 @@
     function member_show(title, id) {
         layer_show(title, 'user-show.html?' + id, 360, 400);
     }
+
     /*用户-停用*/
     function member_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
+        layer.confirm('确认要封禁吗？', function (index) {
             $.ajax({
-                type: 'POST',
-                url: '',
+                method: 'POST',
+                url: apiHost + "manage/user/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "ban": 1},
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>');
+                    $(obj).parents("tr").find(".td-ban").html('<span class="label label-defaunt radius">已封禁</span>');
                     $(obj).remove();
                     layer.msg('已停用!', {icon: 5, time: 1000});
                 },
@@ -226,16 +242,17 @@
 
     /*用户-启用*/
     function member_start(obj, id) {
-        layer.confirm('确认要启用吗？', function (index) {
+        layer.confirm('确认解封吗？', function (index) {
             $.ajax({
-                type: 'POST',
-                url: '',
+                method: 'POST',
+                url: apiHost + "manage/user/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "ban": 0},
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>');
+                    $(obj).parents("tr").find(".td-ban").html('<span class="label label-success radius">已解封</span>');
                     $(obj).remove();
-                    layer.msg('已启用!', {icon: 6, time: 1000});
+                    layer.msg('已解封!', {icon: 6, time: 1000});
                 },
                 error: function (data) {
                     console.log(data.msg);
@@ -243,10 +260,7 @@
             });
         });
     }
-    /*用户-编辑*/
-    function member_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
+
 
 </script>
 </body>

@@ -158,27 +158,27 @@
                     "class": "td-status td-certificate",
                     "render": function (data, type, row, meta) {
                         var ret;
-                        if(row.certificate==0){
-                            ret="未认证";
-                        }else if(row.certificate==1){
-                            ret="已通过";
-                        }else if(row.certificate==-1){
-                            ret="未通过";
-                        }else if(row.certificate==2){
-                            ret="认证中";
+                        if (row.certificate == 0) {
+                            ret = "未认证";
+                        } else if (row.certificate == 1) {
+                            ret = "已通过";
+                        } else if (row.certificate == -1) {
+                            ret = "未通过";
+                        } else if (row.certificate == 2) {
+                            ret = "认证中";
                         }
                         return '<span class="label label-success radius">' + ret + '</span>';
                     }
-                },{
+                }, {
                     "class": "td-status td-check",
                     "render": function (data, type, row, meta) {
                         var ret;
-                        if(row.checked==0){
-                            ret="审核中";
-                        }else if(row.checked==1){
-                            ret="已通过";
-                        }else if(row.certificate==-1){
-                            ret="未通过";
+                        if (row.checked == 0) {
+                            ret = "审核中";
+                        } else if (row.checked == 1) {
+                            ret = "已通过";
+                        } else if (row.certificate == -1) {
+                            ret = "未通过";
                         }
                         return '<span class="label label-success radius">' + ret + '</span>';
                     }
@@ -193,9 +193,20 @@
                     "class": "td-manage",
                     "render": function (data, type, row, meta) {
                         if (row.isban == 0) {
-                            return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                            if (row.certificate == 2) {
+
+                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>' +
+                                    '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',1)"href="javascript:;" title="通过认证"><i class="Hui-iconfont">通过认证</i></a>';
+                            } else {
+                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                            }
                         } else {
-                            return '<a style="text-decoration:none" onClick="member_start(this,' + row.userId + ')"href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>';
+                            if (row.certificate == 2) {
+                                return '<a style="text-decoration:none" onClick="member_start(this,' + row.userId + ')"href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>' +
+                                    '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',0)"href="javascript:;" title="不通过认证"><i class="Hui-iconfont"><span style="color: red">不通过</span></i></a>';
+                            } else {
+                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                            }
                         }
                     },
                 },
@@ -216,7 +227,28 @@
 
     /*用户-查看*/
     function member_show(title, id) {
-        layer_show(title, 'user-show.html?' + id, 360, 400);
+        window.location.href = 'member-show.html?' + id;
+    }
+
+    /*用户-停用*/
+    function member_check(obj, id, check) {
+        layer.confirm('确认要通过认证吗？', function (index) {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/user/check",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "check": check},
+                dataType: 'json',
+                success: function (data) {
+                    //$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>');
+                    //$(obj).parents("tr").find(".td-check").html('<span class="label label-defaunt radius">已封禁</span>');
+                    //$(obj).remove();
+                    layer.msg('审核成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
     }
 
     /*用户-停用*/

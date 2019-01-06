@@ -23,14 +23,14 @@
 <title>意见反馈</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 意见反馈 <span class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 动态管理 <span class="c-gray en">&gt;</span> 动态列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="key" name="">
-		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜意见</button>
+		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜动态</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong></strong> 条</span></div>
 	<div class="mt-20">
@@ -40,9 +40,10 @@
 					<th width="25"><input type="checkbox" name="" value=""></th>
 					<th width="60">ID</th>
 					<th width="60">用户名</th>
-					<th>留言内容</th>
-					<th>回复内容</th>
-					<th>留言时间</th>
+					<th>动态标题</th>
+					<th>动态内容</th>
+					<th>动态图片</th>
+					<th>创建时间</th>
 					<th width="30">操作</th>
 				</tr>
 			</thead>
@@ -85,7 +86,7 @@
             "ServerSide": true,
             "pagingType": "full_numbers",
             "ajax": {
-                "url": apiHost + "manage/feedback/list",
+                "url": apiHost + "manage/moment/list",
                 "method": "post",
                 data: {
                     "mtoken": sessionStorage.getItem('mToken'),
@@ -98,7 +99,7 @@
                     if (data.code == 2001) {
                         window.location.href = "login.html";
                     }
-                    return data.data.feedBacks;
+                    return data.data.moments;
                 }
             },
             "columns": [
@@ -111,15 +112,19 @@
                     "data": "id",
                 },
                 {
-                    "data": "userName",
+                    "data": "nickName",
+                },
+                {
+                    "data": "title",
                 },
                 {
                     "data": "content",
                 },
                 {
-                    "data": "response",
-                },
-                {
+                    "render": function (data, type, row, meta) {
+                        return '<img style="width: 50px;height: 50px" src="'+row.img+'"/>';
+                    }
+                },{
                     "render": function (data, type, row, meta) {
                         return timestampToTime(row.createTime);
                     }
@@ -128,16 +133,11 @@
                     "class": "td-manage",
                     "render": function (data, type, row, meta) {
                         if (row.response == null) {
-                            return '<a style="text-decoration:none" onClick="response(this,' + row.id + ')"href="javascript:;" title="回复"><i class="Hui-iconfont">&#xe6df;</i></a>';
+                            return '<a style="text-decoration:none" onClick="ban(this,' + row.id + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">&#xe706;</i></a>';
                         }
                     },
                 },
 
-            ],
-
-            "aoColumnDefs": [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
 
@@ -150,15 +150,15 @@
 
 
     /*用户-停用*/
-    function reponse(obj, id) {
-        layer.confirm('确认要通过认证吗？', function (index) {
+    function ban(obj, id) {
+        layer.confirm('确认要封禁吗？', function (index) {
             $.ajax({
                 method: 'POST',
-                url: apiHost + "manage/feedback/response",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "id": id, "content": "回复内容"},
+                url: apiHost + "manage/moment/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id},
                 dataType: 'json',
                 success: function (data) {
-                    layer.msg('回复成功!', {icon: 6, time: 1000});
+                    layer.msg('封禁成功!', {icon: 6, time: 1000});
                 },
                 error: function (data) {
                     console.log(data.msg);

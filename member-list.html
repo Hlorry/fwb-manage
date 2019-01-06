@@ -28,12 +28,7 @@
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <div class="text-c"> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
-               class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
-               class="input-text Wdate" style="width:120px;">
+    <div class="text-c">
         <input type="text" class="input-text" style="width:100px" placeholder="邮箱" id="email" name="email">
         <input type="text" class="input-text" style="width:100px" placeholder="昵称" id="nickName" name="nickName">
         <input type="text" class="input-text" style="width:100px" placeholder="用户名" id="userName" name="userName">
@@ -94,9 +89,10 @@
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
+    var oTable;
     $(function () {
 
-        var oTable = $('.table-sort').dataTable({
+        oTable = $('.table-sort').dataTable({
             "Sorting": [[1, "desc"]],//默认第几个排序
             "StateSave": true,//状态保存
             "ServerSide": true,
@@ -112,6 +108,8 @@
                     "gender": $("#gender").val(),
                     "userId": $("#userId").val(),
                     "check": $("#check").val(),
+                    "page": $("#page").val(),
+                    "size": $("#size").val(),
                     "certificate": $("#certificate").val()
                 },
                 //用于处理服务器端返回的数据。 dataSrc是DataTable特有的
@@ -220,7 +218,7 @@
         });
 
         $("#search").bind("click", function () { //点击按钮 触发table重新请求服务器
-            oTable.fnDraw(true);
+            $(".table-sort").dataTable().fnDraw(false);
         });
 
     });

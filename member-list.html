@@ -55,7 +55,6 @@
             搜用户
         </button>
     </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong></strong> 条</span></div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
@@ -97,6 +96,7 @@
             "StateSave": true,//状态保存
             "ServerSide": true,
             "pagingType": "full_numbers",
+            "pageLength": 10,
             "ajax": {
                 "url": apiHost + "manage/user/list",
                 "method": "post",
@@ -213,11 +213,32 @@
 
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
-            ]
-        });
+                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+            ],
+            "oLanguage" : {//语言设置
+                "sProcessing" : "处理中...",
+                "sLengthMenu" : "显示 _MENU_ 项结果",
+                "sZeroRecords" : "没有匹配结果",
+                "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered" : "(由 100 项结果过滤)",
+                "sInfoPostFix" : "",
+                "sSearch" : "搜索:",
+                "sUrl" : "",
+                "sEmptyTable" : "表中数据为空",
+                "sLoadingRecords" : "载入中...",
+                "sInfoThousands" : ",",
+                "oPaginate" : {
+                    "sFirst" : "首页",
+                    "sPrevious" : "上页",
+                    "sNext" : "下页",
+                    "sLast" : "末页"
+                }
+            }
+            });
 
         $("#search").bind("click", function () { //点击按钮 触发table重新请求服务器
+            console.log("111111111")
             $(".table-sort").dataTable().fnDraw(false);
         });
 

@@ -56,19 +56,15 @@
 </div>
 <div class="pd-20">
     <span>公有相册</span>
-    <table class="table">
-        <tbody id="public">
+    <div id="public" style="padding-left: 106px;">
 
-        </tbody>
-    </table>
+    </div>
 </div>
 <div class="pd-20">
     <span>私有相册</span>
-    <table class="table">
-        <tbody id="private">
+    <div id="private" style="padding-left: 106px;">
 
-        </tbody>
-    </table>
+    </div>
 </div>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
@@ -107,14 +103,14 @@
                     if(public_photo.length>0){
                         var html=""
                         for(var i=0;i<public_photo.length;i++){
-                            html+='<th class="text-r" width="80">'+public_photo[i].id+'</th><td><img  style="height: 70px;width: 70px" src="'+public_photo[i].url+'"></td>'
+                            html += `<img onClick="ban(this,`+public_photo[i].id+`)" data-id=${public_photo[i].id} width='70px' height="70px" src=${public_photo[i].url}>`
                         }
                         $("#public").append(html);
                     }
                     if(private_photo.length>0){
                         var html=""
                         for(var i=0;i<private_photo.length;i++){
-                            html+='<th class="text-r" width="80">'+private_photo[i].id+'</th><td><img style="height: 70px;width: 70px" src="'+private_photo[i].url+'"></td>'
+                            html += `<img onClick="ban(this,`+private_photo[i].id+`)" data-id=${private_photo[i].id} width='70px' height="70px" src=${private_photo[i].url}>`
                         }
                         $("#private").append(html);
                     }
@@ -126,6 +122,24 @@
             },
         });
     });
+
+    /*图片-封禁*/
+    function ban(obj, id) {
+        layer.confirm('确定要封禁吗', function (index) {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/photo/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "photoId": id},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('封禁成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
 </script>
 <!--/_footer 作为公共模版分离出去-->
 

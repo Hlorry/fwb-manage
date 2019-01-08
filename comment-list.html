@@ -15,12 +15,14 @@
 <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
 <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
 <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
+<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
 <!--[if IE 6]>
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 
-<title>意见反馈</title>
+<title>评论管理</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 评论管理 <span class="c-gray en">&gt;</span> 评论管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -32,7 +34,6 @@
 		<input type="text" class="input-text" style="width:250px" placeholder="输入关键词" id="key" name="">
 		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜评论</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"><span class="r">共有数据：<strong></strong> 条</span></div>
 	<div class="mt-20">
 		<table class="table table-border table-bordered table-hover table-bg table-sort">
 			<thead>
@@ -46,19 +47,6 @@
 					<th width="30">操作</th>
 				</tr>
 			</thead>
-			<!--<tbody>
-				&lt;!&ndash;<tr class="text-c">
-					<td><input type="checkbox" value="1" name=""></td>
-					<td>1</td>
-					<td><a href="javascript:;" onclick="member_show('张三','member-show.html','10001','360','400')"><i class="avatar size-L radius"><img alt="" src="static/h-ui/images/ucnter/avatar-default-S.gif"></i></a></td>
-					<td class="text-l"><div class="c-999 f-12">
-							<u style="cursor:pointer" class="text-primary" onclick="member_show('张三','member-show.html','10001','360','400')">张三</u> <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20">2014-8-31 15:20</time> <span class="ml-20">13000000000</span> <span class="ml-20">admin@mail.com</span></div>
-							<div class="f-12 c-999"><a href="http://www.h-ui.net/Hui-4.22-comment.shtml" target="_blank">http://www.h-ui.net/Hui-4.22-comment.shtml</a></div>
-						<div>留言内容</div></td>
-					<td class="td-manage"><a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-				</tr>&ndash;&gt;
-
-			</tbody>-->
 		</table>
 	</div>
 </div>
@@ -71,83 +59,90 @@
 
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
-<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
-    var oTable;
     $(function () {
 
-        oTable = $('.table-sort').dataTable({
-            "Sorting": [[1, "desc"]],//默认第几个排序
-            "StateSave": true,//状态保存
-            "ServerSide": true,
-            "pagingType": "full_numbers",
-            "ajax": {
-                "url": apiHost + "manage/comment/list",
-                "method": "post",
-                data: {
-                    "mtoken": sessionStorage.getItem('mToken'),
-                    "page": $("#page").val(),
-                    "size": $("#size").val(),
-                },
-                //用于处理服务器端返回的数据。 dataSrc是DataTable特有的
-                dataSrc: function (data) {
-                    console.log(data);
-                    if (data.code == 2001) {
-                        window.location.href = "login.html";
-                    }
-                    return data.data.comments;
+        $('.table-sort').bootstrapTable({
+            url: apiHost + "manage/comment/list",
+            method: 'post',
+            dataType: "json",
+            cache: false,
+            striped: true,
+            pagination: true, //分页
+            singleSelect: true,
+            search: false,
+            pageList: [5, 10, 20, 50],
+            contentType: "application/x-www-form-urlencoded",
+            sidePagination: "server",
+            sortable: false,
+            minimumCountColumns: 2,
+            queryParams: queryParams,
+            responseHandler: function (result) {
+                if (result.code == 2001) {
+                    parent.location.href = "login.html";
                 }
+                return {
+                    total: result.data.count, //总页数,前面的key必须为"total"
+                    rows: result.data.comments //行数据，前面的key要与之前设置的dataField的值一致.
+                };
             },
-            "columns": [
-                {
-                    "render": function (data, type, row, meta) {
-                        return '<input type="checkbox" value="' + row.id + '" name="">';
-                    },
-                },
-                {
-                    "data": "id",
-                },
-                {
-                    "data": "momentId",
-                },{
-                    "data": "nickName",
-                },
-                {
-                    "data": "content",
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        return timestampToTime(row.createTime);
+            columns : [{
+                title:'',
+                field:'id',
+                formatter:function(value,row){
+                    return '<input type="checkbox" value="' + row.id + '" name="">';
+                }
+            },{
+                title:'评论id',
+                field:'id'
+            },{
+                title:'动态id',
+                field:'momentId'
+            },{
+                title:'昵称',
+                field:'nickName'
+            },{
+                title:'评论内容',
+                field:'content'
+            },{
+                title:'创建时间',
+                field:'createTime',
+                formatter:function(value){
+                    return	timestampToTime(value);
+                }
+            },{
+                title:'操作',
+                field:'id',
+                formatter:function(value,row){
+                    if (row.isBan == 0) {
+                        return '<a style="text-decoration:none" onClick="ban(this,' + row.id + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">&#xe706;</i></a>';
+                    }else{
+                        return "";
                     }
-                },
-                {
-                    "class": "td-manage",
-                    "render": function (data, type, row, meta) {
-                        if (row.isBan == 0) {
-                            return '<a style="text-decoration:none" onClick="ban(this,' + row.id + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">&#xe706;</i></a>';
-                        }else{
-                            return "";
-						}
-                    },
-                },
-
-            ],
-
-            "aoColumnDefs": [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
-            ]
+                }
+            }]
         });
 
         $("#search").bind("click", function () { //点击按钮 触发table重新请求服务器
-            $(".table-sort").dataTable().fnDraw(false);
+            $('.table-sort').bootstrapTable("refresh")
         });
 
     });
 
+    function queryParams(params) {
+        return {
+            "mtoken": sessionStorage.getItem('mToken'),
+            "offset": params.offset,
+            "size": params.limit
+        };
+    }
 
 
     /*用户-停用*/

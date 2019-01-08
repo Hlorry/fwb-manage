@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
+    <link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -85,164 +87,159 @@
 <script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
-    var oTable;
     $(function () {
 
-        oTable = $('.table-sort').dataTable({
-            "Sorting": [[1, "desc"]],//默认第几个排序
-            "StateSave": true,//状态保存
-            "ServerSide": true,
-            "pagingType": "full_numbers",
-            "pageLength": 10,
-            "ajax": {
-                "url": apiHost + "manage/user/list",
-                "method": "post",
-                data: {
-                    "mtoken": sessionStorage.getItem('mToken'),
-                    "userName": $("#userName").val(),
-                    "email": $("#email").val(),
-                    "nickName": $("#nickName").val(),
-                    "gender": $("#gender").val(),
-                    "userId": $("#userId").val(),
-                    "check": $("#check").val(),
-                    "page": $("#page").val(),
-                    "size": $("#size").val(),
-                    "certificate": $("#certificate").val()
-                },
-                //用于处理服务器端返回的数据。 dataSrc是DataTable特有的
-                dataSrc: function (datas) {
-                    console.log(datas);
-                    if (datas.code == 2001) {
-                        window.location.href = "login.html";
-                    }
-                    return datas.data.users;
+        $('.table-sort').bootstrapTable({
+            url: apiHost + "manage/user/list",
+            method: 'post',
+            dataType: "json",
+            cache: false,
+            striped: true,
+            pagination: true, //分页
+            singleSelect: true,
+            search: false,
+            pageList: [5, 10, 20, 50],
+            contentType: "application/x-www-form-urlencoded",
+            sidePagination: "server",
+            sortable: false,
+            minimumCountColumns: 2,
+            queryParams: queryParams,
+            responseHandler: function (result) {
+                if (result.code == 2001) {
+                    parent.location.href = "login.html";
                 }
+                return {
+                    total: result.data.count, //总页数,前面的key必须为"total"
+                    rows: result.data.users //行数据，前面的key要与之前设置的dataField的值一致.
+                };
             },
-            "columns": [
-                {
-                    "render": function (data, type, row, meta) {
-                        return '<input type="checkbox" value="' + row.userId + '" name="">';
-                    },
-                },
-                {
-                    "data": "userId",
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
-                    }
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        var ret = row.gender == undefined ? "默认" : row.gender == 1 ? "男" : "女";
-                        return '<span class="label label-success radius">' + ret + '</span>';
-                    }
-                },
-                {
-                    "data": "nickName",
-                },
-                {
-                    "data": "email",
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        return timestampToTime(row.createTime);
-                    }
-                },
-                {
-                    "class": "td-status td-certificate",
-                    "render": function (data, type, row, meta) {
-                        var ret;
-                        if (row.certificate == 0) {
-                            ret = "未认证";
-                        } else if (row.certificate == 1) {
-                            ret = "已通过";
-                        } else if (row.certificate == -1) {
-                            ret = "未通过";
-                        } else if (row.certificate == 2) {
-                            ret = "认证中";
-                        }
-                        return '<span class="label label-success radius">' + ret + '</span>';
-                    }
-                }, {
-                    "class": "td-status td-check",
-                    "render": function (data, type, row, meta) {
-                        var ret;
-                        if (row.checked == 0) {
-                            ret = "审核中";
-                        } else if (row.checked == 1) {
-                            ret = "已通过";
-                        } else if (row.certificate == -1) {
-                            ret = "未通过";
-                        }
-                        return '<span class="label label-success radius">' + ret + '</span>';
-                    }
-                }, {
-                    "class": "td-status td-ban",
-                    "render": function (data, type, row, meta) {
-                        var ret = row.isban == 1 ? "已封禁" : "正常";
-                        return '<span class="label label-success radius">' + ret + '</span>';
-                    }
-                },
-                {
-                    "class": "td-manage",
-                    "render": function (data, type, row, meta) {
-                        if (row.isban == 0) {
-                            if (row.certificate == 2) {
-
-                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>' +
-                                    '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',1)"href="javascript:;" title="通过认证"><i class="Hui-iconfont">通过认证</i></a>';
-                            } else {
-                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
-                            }
-                        } else {
-                            if (row.certificate == 2) {
-                                return '<a style="text-decoration:none" onClick="member_start(this,' + row.userId + ')"href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>' +
-                                    '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',0)"href="javascript:;" title="不通过认证"><i class="Hui-iconfont"><span style="color: red">不通过</span></i></a>';
-                            } else {
-                                return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
-                            }
-                        }
-                    },
-                },
-
-            ],
-
-            "aoColumnDefs": [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
-            ],
-            "oLanguage" : {//语言设置
-                "sProcessing" : "处理中...",
-                "sLengthMenu" : "显示 _MENU_ 项结果",
-                "sZeroRecords" : "没有匹配结果",
-                "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
-                "sInfoFiltered" : "(由 100 项结果过滤)",
-                "sInfoPostFix" : "",
-                "sSearch" : "搜索:",
-                "sUrl" : "",
-                "sEmptyTable" : "表中数据为空",
-                "sLoadingRecords" : "载入中...",
-                "sInfoThousands" : ",",
-                "oPaginate" : {
-                    "sFirst" : "首页",
-                    "sPrevious" : "上页",
-                    "sNext" : "下页",
-                    "sLast" : "末页"
+            columns : [{
+                title:'',
+                field:'id',
+                formatter:function(value,row){
+                    return '<input type="checkbox" value="' + row.id + '" name="">';
                 }
-            }
-            });
+            },{
+                title:'用户id',
+                field:'userId'
+            },{
+                title:'用户名',
+                field:'userName',
+                formatter:function(value,row){
+                    return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
+                }
+            },{
+                title:'性别',
+                field:'gender',
+                formatter:function(value,row){
+                    var ret = row.gender == undefined ? "默认" : row.gender == 1 ? "男" : "女";
+                    return '<span class="label label-success radius">' + ret + '</span>';}
+            },{
+                title:'昵称',
+                field:'nickName'
+            },{
+                title:'email',
+                field:'email'
+            },{
+                title:'创建时间',
+                field:'createTime',
+                formatter:function(value){
+                    return	timestampToTime(value);
+                }
+            },{
+                title:'认证状态',
+                field:'createTime',
+                "class": "td-status td-certificate",
+                formatter:function(value,row){
+                    var ret;
+                    if (row.certificate == 0) {
+                        ret = "未认证";
+                    } else if (row.certificate == 1) {
+                        ret = "已通过";
+                    } else if (row.certificate == -1) {
+                        ret = "未通过";
+                    } else if (row.certificate == 2) {
+                        ret = "认证中";
+                    }
+                    return '<span class="label label-success radius">' + ret + '</span>';
+                }
+            },{
+                title:'审核状态',
+                field:'checked',
+                "class": "td-status td-check",
+                formatter:function(value,row){
+                    var ret;
+                    if (row.checked == 0) {
+                        ret = "审核中";
+                    } else if (row.checked == 1) {
+                        ret = "已通过";
+                    } else if (row.check == -1) {
+                        ret = "未通过";
+                    }
+                    return '<span class="label label-success radius">' + ret + '</span>';
+                }
+            },{
+                title:'封禁状态',
+                field:'isBan',
+                "class": "td-status td-ban",
+                formatter:function(value,row){
+                    var ret = row.isban == 1 ? "已封禁" : "正常";
+                    if(row.isban==1){
+                        return '<span class="label label-danger radius">' + ret + '</span>';
+                    }else{
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                }
+            },{
+                title:'操作',
+                field:'id',
+                "class": "td-manage",
+                formatter:function(value,row){
+                    if (row.isban == 0) {
+                        if (row.certificate == 2) {
+                            return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>' +
+                                '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',1)"href="javascript:;" title="通过认证"><i class="Hui-iconfont">通过认证</i></a>';
+                        } else {
+                            return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                        }
+                    } else {
+                        if (row.certificate == 2) {
+                            return '<a style="text-decoration:none" onClick="member_start(this,' + row.userId + ')"href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>' +
+                                '<a style="text-decoration:none" class="ml-5" onClick="member_check(this,' + row.userId + ',0)"href="javascript:;" title="不通过认证"><i class="Hui-iconfont"><span style="color: red">不通过</span></i></a>';
+                        } else {
+                            return '<a style="text-decoration:none" onClick="member_stop(this,' + row.userId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>';
+                        }
+                    }
+                }
+            }]
+        });
 
         $("#search").bind("click", function () { //点击按钮 触发table重新请求服务器
-            console.log("111111111")
-            $(".table-sort").dataTable().fnDraw(false);
+            $('.table-sort').bootstrapTable("refresh")
         });
 
     });
+
+    function queryParams(params) {
+        return {
+            "mtoken": sessionStorage.getItem('mToken'),
+            "userName": $("#userName").val(),
+            "email": $("#email").val(),
+            "nickName": $("#nickName").val(),
+            "gender": $("#gender").val(),
+            "userId": $("#userId").val(),
+            "check": $("#check").val(),
+            "certificate": $("#certificate").val(),
+            "offset": params.offset,
+            "size": params.limit
+        };
+    }
 
     /*用户-查看*/
     function member_show(title, id) {

@@ -1,0 +1,16 @@
+.fixed-table-pagination{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.fixed-table-pagination .pagination-detail{
+    display: inline-block;
+}
+.fixed-table-pagination .pagination{
+    display: inline-block;
+    text-align: center;
+    float: right;
+}
+.fixed-table-pagination .pagination ul>li{
+    float: left;
+}

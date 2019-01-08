@@ -3676,7 +3676,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus{color: #fff;text-deco
 	//当弹出层出现时，隐藏body右侧滚动条
 	.modal-open{overflow-x: hidden;overflow-y: auto}
 	//隐藏body滚动条时，页面偏移
-	.page-overflow{margin-right:16px}
+	.page.css-overflow{margin-right:16px}
 	//弹出层，绝对定位，默认【宽度500px，高度自适应，背景白色，6px圆角，带阴影】，自定义宽度可在data-width中设置参数
 	.modal {position:absolute;top:50%;left:50%; width:500px;margin-left:-250px;z-index:1050;overflow: visible;background-color: #fff;background-clip: padding-box;
 		box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -3697,7 +3697,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus{color: #fff;text-deco
 	.modal.modal-overflow.fade.in{top:0}
 	
 	//隐藏body滚动条时，页面偏移
-	.page-overflow{margin-right:16px}
+	.page.css-overflow{margin-right:16px}
 	
 	//弹出层的最外层，全屏，用户响应点击和滚动
 	.modal-scrollable{position:fixed;top:0;right:0;bottom:0;left:0;overflow: auto}
@@ -4363,7 +4363,7 @@ a.label:hover, a.label:focus, a.badge:hover, a.badge:focus{color: #fff;text-deco
 
 
 /*5 页面
-	Name:			page
+	Name:			page.css
 */
 
 /*5.1 错误页-404*/

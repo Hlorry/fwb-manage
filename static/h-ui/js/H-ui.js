@@ -1738,7 +1738,7 @@ function stopDefault(e) {
  * ======================================================================== */
 /* global Event */
 (function(document, window, index) {
-	// Index is used to keep multiple navs on the same page namespaced
+	// Index is used to keep multiple navs on the same page.css namespaced
 	"use strict";
 	var responsiveNav = function(el, options) {
 		var computed = !!window.getComputedStyle;
@@ -2378,7 +2378,7 @@ function stopDefault(e) {
 
 			/**
 		* Calculates the height of the navigation and then creates
-		* styles which are later added to the page <head>
+		* styles which are later added to the page.css <head>
 		*/
 			_calcHeight: function() {
 				var savedHeight = 0;
@@ -7405,8 +7405,8 @@ function($) {
 		var that = this;
 		this.element = $(element);
 
-		// add container for single page application
-		// when page switch the datetimepicker div will be removed also.
+		// add container for single page.css application
+		// when page.css switch the datetimepicker div will be removed also.
 		this.container = options.container || 'body';
 
 		this.language = options.language || this.element.data('date-language') || 'en';

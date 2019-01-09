@@ -16,7 +16,8 @@
     <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
-    <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
     <link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
@@ -74,7 +75,8 @@
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
@@ -126,9 +128,9 @@
             }, {
                 title: '图片',
                 field: 'content',
-                "class":"td-todayWord",
-                formatter: function (value,row) {
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost+row.imgUrl.split(" ")[2]:row.imgUrl;
+                "class": "td-todayWord",
+                formatter: function (value, row) {
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
                     return '<img style="width: 50px;height: 50px" src="' + imgSrc + '"/>';
                 }
 
@@ -154,17 +156,16 @@
                 title: '封禁状态',
                 field: 'isBan',
                 formatter: function (value, row) {
-                    var ret = row.isban == 1 ? "已封禁" : "正常";
                     if (row.isban == 1) {
-                        return '<span class="label label-danger radius">' + ret + '</span>';
+                        return '<span class="label label-danger radius">已封禁</span>';
                     } else {
-                        return '<span class="label label-success radius">' + ret + '</span>';
+                        return '<span class="label label-success radius">正常</span>';
                     }
                 }
             }, {
                 title: '操作',
                 field: 'id',
-                width:  120,
+                width: 120,
                 formatter: function (value, row) {
                     if (row.isBan == 0) {
                         if (row.checked == 0) {
@@ -205,10 +206,10 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id},
                 dataType: 'json',
                 success: function (data) {
-                    if(data.code==200){
+                    if (data.code == 200) {
                         layer.msg('封禁成功!', {icon: 6, time: 1000});
                         $('.table-sort').bootstrapTable("refresh");
-                    }else{
+                    } else {
                         layer.msg('服务器错误!', {icon: 6, time: 1000});
                     }
                 },
@@ -220,24 +221,24 @@
     }
 
     /*动态-审核*/
-    function check(obj, id,state) {
+    function check(obj, id, state) {
         var note;
-        if(state==1){
-            note="确认要通过么？";
-        }else{
-            note="确认不通过么？";
+        if (state == 1) {
+            note = "确认要通过么？";
+        } else {
+            note = "确认不通过么？";
         }
         layer.confirm(note, function (index) {
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/moment/check",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id,"check":state},
+                data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id, "check": state},
                 dataType: 'json',
                 success: function (data) {
-                    if(data.code==200){
+                    if (data.code == 200) {
                         layer.msg('审核成功!', {icon: 6, time: 1000});
                         $('.table-sort').bootstrapTable("refresh");
-                    }else{
+                    } else {
                         layer.msg('服务器错误!', {icon: 6, time: 1000});
                     }
                 },

@@ -154,7 +154,12 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "id":id},
                 dataType: 'json',
                 success: function (data) {
-                    layer.msg('封禁成功!', {icon: 6, time: 1000});
+                    if(data.code==200){
+                        layer.msg('封禁成功!', {icon: 6, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh");
+                    }else{
+                        layer.msg('服务器错误!', {icon: 6, time: 1000});
+                    }
                 },
                 error: function (data) {
                     console.log(data.msg);

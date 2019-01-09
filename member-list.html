@@ -254,10 +254,12 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "check": check},
                 dataType: 'json',
                 success: function (data) {
-                    //$(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>');
-                    //$(obj).parents("tr").find(".td-check").html('<span class="label label-defaunt radius">已封禁</span>');
-                    //$(obj).remove();
-                    layer.msg('审核成功!', {icon: 6, time: 1000});
+                    if(data.code==200){
+                        layer.msg('审核成功!', {icon: 6, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh")
+                    }else{
+                        layer.msg('服务器错误!', {icon: 6, time: 1000});
+                    }
                 },
                 error: function (data) {
                     console.log(data.msg);
@@ -275,10 +277,12 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "ban": 1},
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="解封"><i class="Hui-iconfont"><span style="color: red">解封</span></i></a>');
-                    $(obj).parents("tr").find(".td-ban").html('<span class="label label-defaunt radius">已封禁</span>');
-                    $(obj).remove();
-                    layer.msg('已停用!', {icon: 5, time: 1000});
+                    if(data.code==200){
+                        layer.msg('已封禁!', {icon: 5, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh")
+                    }else{
+                        layer.msg('服务器错误!', {icon: 5, time: 1000});
+                    }
                 },
                 error: function (data) {
                     console.log(data.msg);
@@ -296,10 +300,12 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "ban": 0},
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="封禁"><i class="Hui-iconfont">封禁</i></a>');
-                    $(obj).parents("tr").find(".td-ban").html('<span class="label label-success radius">已解封</span>');
-                    $(obj).remove();
-                    layer.msg('已解封!', {icon: 6, time: 1000});
+                    if(data.code==200){
+                        layer.msg('已解封!', {icon: 6, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh")
+                    }else{
+                        layer.msg('服务器错误!', {icon: 6, time: 1000});
+                    }
                 },
                 error: function (data) {
                     console.log(data.msg);

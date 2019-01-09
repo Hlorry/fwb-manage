@@ -14,3 +14,39 @@
 .fixed-table-pagination .pagination ul>li{
     float: left;
 }
+
+.td-todayWord img{
+    cursor: pointer;
+    transition: all 0.6s;
+    width: 70px;
+}
+.td-todayWord img:hover{
+    display: inline-block;
+    transform: scale(8);
+    position:relative;
+    z-index:100;
+}
+
+#public img{
+    cursor: pointer;
+    transition: all 0.6s;
+    width: 70px;
+}
+#public img:hover{
+    display: inline-block;
+    transform: scale(5);
+    position:relative;
+    z-index:100;
+}
+
+#private img{
+    cursor: pointer;
+    transition: all 0.6s;
+    width: 70px;
+}
+#private img:hover{
+    display: inline-block;
+    transform: scale(5);
+    position:relative;
+    z-index:100;
+}

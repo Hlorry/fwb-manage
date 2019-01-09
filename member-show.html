@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -44,12 +45,28 @@
             <td id="email"></td>
         </tr>
         <tr>
-            <th class="text-r">关于：</th>
-            <td id="aboutme"></td>
+            <th class="text-r">标签：</th>
+            <td id="tag"></td>
         </tr>
         <tr>
-            <th class="text-r">注册时间：</th>
-            <td id="createTime"></td>
+            <th class="text-r">认证状态：</th>
+            <td id="certificate"></td>
+        </tr>
+        <tr>
+            <th class="text-r">认证图片：</th>
+            <td id=""><img id="certificateImgUrl" width="70px" height="70px"/></td>
+        </tr>
+        <tr>
+            <th class="text-r">身高：</th>
+            <td id="height"></td>
+        </tr>
+        <tr>
+            <th class="text-r">生日：</th>
+            <td id="birthday"></td>
+        </tr>
+        <tr>
+            <th class="text-r">体型：</th>
+            <td id="bodyShape"></td>
         </tr>
         </tbody>
     </table>
@@ -100,6 +117,22 @@
                     $("#gender").html(user.gender == 0 ? "默认" : user.gender == 1 ? "男" : "女")
                     $("#email").html(user.email);
                     $("#createTime").html(timestampToTime(user.createTime));
+                    var certificate;
+                    if(user.certificate==1){
+                        certificate = "认证成功";
+                    }else if(user.certificate==0){
+                        certificate = "未认证";
+                    }else if(user.certificate==-1){
+                        certificate = "未通过";
+                    }else if(user.certificate==2){
+                        certificate = "认证中";
+                    }
+                    $("#tag").html(user.tag);
+                    $("#certificate").html(certificate);
+                    $("#birthday").html(user.birthday);
+                    $("#height").html(user.height);
+                    $("#bodyShape").html(user.bodyShape);
+                    $("#certificateImgUrl").attr("src",user.certificateImgUrl);
                     if(public_photo.length>0){
                         var html=""
                         for(var i=0;i<public_photo.length;i++){

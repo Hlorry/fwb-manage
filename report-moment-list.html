@@ -25,12 +25,13 @@
 <title>意见反馈</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 意见反馈 <span class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 举报管理 <span class="c-gray en">&gt;</span> 用户举报 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<input type="text" class="input-text" style="width:250px" placeholder="举报用户ID" id="userId" name="">
 		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
 	<div class="mt-20">
@@ -39,11 +40,11 @@
 				<tr class="text-c">
 					<th><input type="checkbox" name="" value=""></th>
 					<th>ID</th>
-					<th>用户名</th>
-					<th>留言内容</th>
-					<th>回复内容</th>
-					<th>留言时间</th>
-					<th>操作</th>
+					<th>举报者Id</th>
+					<th>举报者用户名</th>
+					<th>动态ID</th>
+					<th>举报时间</th>
+					<th width="30">操作</th>
 				</tr>
 			</thead>
 		</table>
@@ -69,7 +70,7 @@
     $(function () {
 
         $('.table-sort').bootstrapTable({
-            url: apiHost + "manage/feedback/list",
+            url: apiHost + "manage/report/moment/list",
             method: 'post',
             dataType: "json",
             cache: false,
@@ -84,12 +85,13 @@
             minimumCountColumns: 2,
             queryParams: queryParams,
             responseHandler: function (result) {
+                console.log(result)
                 if (result.code == 2001) {
                     parent.location.href = "login.html";
                 }
                 return {
                     total: result.data.count, //总页数,前面的key必须为"total"
-                    rows: result.data.feedBacks //行数据，前面的key要与之前设置的dataField的值一致.
+                    rows: result.data.reports //行数据，前面的key要与之前设置的dataField的值一致.
                 };
             },
             columns : [{
@@ -102,14 +104,14 @@
                 title:'id',
                 field:'id'
             },{
-                title:'用户名',
+                title:'举报者ID',
+                field:'userId'
+            },{
+                title:'举报者用户名',
                 field:'userName'
             },{
-                title:'反馈内容',
-                field:'content'
-            },{
-                title:'回复内容',
-                field:'response'
+                title:'动态Id',
+                field:'cmId'
             },{
                 title:'创建时间',
                 field:'createTime',
@@ -139,6 +141,7 @@
     function queryParams(params) {
         return {
             "mtoken": sessionStorage.getItem('mToken'),
+            "momentId":$("#momentId").val(),
             "offset": params.offset,
             "size": params.limit
         };
@@ -146,7 +149,7 @@
 
 
 
-    /*用户-停用*/
+    /*用户-停用
     function response(obj, id) {
         layer.confirm('回复', function (index) {
             $.ajax({
@@ -163,6 +166,7 @@
             });
         });
     }
+	 */
 
 </script>
 </body>

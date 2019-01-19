@@ -46,6 +46,7 @@
 					<th>举报者用户名</th>
 					<th>被举报者ID</th>
 					<th>被举报者用户名</th>
+					<th>图片</th>
 					<th>举报类型</th>
 					<th>留言时间</th>
 					<th width="30">操作</th>
@@ -119,6 +120,16 @@
             },{
                 title:'被举报用户名',
                 field:'otherUserName'
+            },{
+                title:'图片',
+                field:'imgUrls',
+                formatter:function(value,row){
+                    if(row.imgUrls==null || row.imgUrls==undefined){
+                        return "";
+                    }
+                    var imgSrc = contains(row.imgUrls, " ") ? urlHost + row.imgUrls.split(" ")[2] : row.imgUrls;
+                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                }
             },{
                 title:'举报类型',
                 field:'type',

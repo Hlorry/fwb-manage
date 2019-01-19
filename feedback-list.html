@@ -41,6 +41,7 @@
 					<th>ID</th>
 					<th>用户名</th>
 					<th>留言内容</th>
+					<th>图片</th>
 					<th>回复内容</th>
 					<th>留言时间</th>
 					<th>操作</th>
@@ -107,6 +108,16 @@
             },{
                 title:'反馈内容',
                 field:'content'
+            },{
+                title:'图片',
+                field:'content',
+                formatter:function(value,row){
+                    if(row.imgUrl==null || row.imgUrl==undefined){
+                        return "";
+                    }
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
+                    return '<img style="width: 50px" src="' + imgSrc + '"/>';
+                }
             },{
                 title:'回复内容',
                 field:'response'

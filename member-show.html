@@ -30,7 +30,8 @@
         <dt>
             <span class="f-18 username"></span>
         </dt>
-        <dd class="pt-10 f-12 about" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="about" style="width: 600px;height: 100px"></textarea></dd>
+        <a class="label label-success radius" id ="save" href="javascript:void(0)">保存</a>
     </dl>
 </div>
 <div class="pd-20">
@@ -156,6 +157,24 @@
                 console.log(data.msg);
             },
         });
+
+        $("#save").on("click",function(){
+            var about = $(".about").val();
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/fix/userInfo",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""),"aboutme":about},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('修改成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+
+        });
+
     });
 
     /*图片-封禁*/

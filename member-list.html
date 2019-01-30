@@ -171,6 +171,14 @@
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
+                title: '待审核头像',
+                field: 'avatarCheckURL',
+                "class": "td-todayWord",
+                formatter: function (value, row) {
+                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] : row.avatarCheckURL;
+                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                }
+            }, {
                 title: '认证图片',
                 field: 'certificateImgUrl',
                 "class": "td-todayWord",

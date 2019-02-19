@@ -142,6 +142,9 @@
                 "class": "td-todayWord",
                 width: 80,
                 formatter: function (value, row) {
+                    if (row.imgUrl == null || row.imgUrl == undefined) {
+                        return "";
+                    }
                     var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
@@ -206,9 +209,9 @@
     function queryParams(params) {
         return {
             "mtoken": sessionStorage.getItem('mToken'),
-            "userId":$("#userId").val(),
+            "userId": $("#userId").val(),
             "check": $("#check").val(),
-            "userName":$("#userName").val(),
+            "userName": $("#userName").val(),
             "offset": params.offset,
             "size": params.limit
         };

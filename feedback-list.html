@@ -1,69 +1,81 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="renderer" content="webkit|ie-comp|ie-stand">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-<!--[if lt IE 9]>
-<script type="text/javascript" src="lib/html5shiv.js"></script>
-<script type="text/javascript" src="lib/respond.min.js"></script>
-<![endif]-->
-<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
-<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
-<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
-<link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
-<link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
-<!--[if IE 6]>
-<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script>DD_belatedPNG.fix('*');</script>
-<![endif]-->
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.css"/>
+    <link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
 
-<title>意见反馈</title>
+    <title>意见反馈</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 意见反馈 <span class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 意见反馈 <span
+        class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+                                              href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
-		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
-	</div>
-	<div class="mt-20">
-		<table class="table table-border table-bordered table-hover table-bg table-sort">
-			<thead>
-				<tr class="text-c">
-					<th><input type="checkbox" name="" value=""></th>
-					<th>ID</th>
-					<th>用户名</th>
-					<th>留言内容</th>
-					<th>图片</th>
-					<th>回复内容</th>
-					<th>留言时间</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-		</table>
-	</div>
+    <div class="text-c"> 日期范围：
+        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
+               class="input-text Wdate" style="width:120px;">
+        -
+        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
+               class="input-text Wdate" style="width:120px;">
+        <button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
+        </button>
+    </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th><input type="checkbox" name="" value=""></th>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>留言内容</th>
+                <th>图片</th>
+                <th>设备类型</th>
+                <th>系统版本</th>
+                <th>回复内容</th>
+                <th>回复时间</th>
+                <th>留言时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>  
-<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer /作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
@@ -85,6 +97,7 @@
             minimumCountColumns: 2,
             queryParams: queryParams,
             responseHandler: function (result) {
+                console.log(result);
                 if (result.code == 2001) {
                     parent.location.href = "login.html";
                 }
@@ -93,48 +106,66 @@
                     rows: result.data.feedBacks //行数据，前面的key要与之前设置的dataField的值一致.
                 };
             },
-            columns : [{
-                title:'',
-                field:'id',
-                formatter:function(value,row){
+            columns: [{
+                title: '',
+                field: 'id',
+                formatter: function (value, row) {
                     return '<input type="checkbox" value="' + row.id + '" name="">';
                 }
-            },{
-                title:'id',
-                field:'id'
-            },{
-                title:'用户名',
-                field:'userName'
-            },{
-                title:'反馈内容',
-                field:'content'
-            },{
-                title:'图片',
-                field:'content',
-                formatter:function(value,row){
-                    if(row.imgUrl==null || row.imgUrl==undefined){
+            }, {
+                title: 'id',
+                field: 'id'
+            }, {
+                title: '用户名',
+                field: 'userName'
+            }, {
+                title: '反馈内容',
+                field: 'content'
+            }, {
+                title: '图片',
+                field: 'content',
+                formatter: function (value, row) {
+                    if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
                     var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
                     return '<img style="width: 50px" src="' + imgSrc + '"/>';
                 }
-            },{
-                title:'回复内容',
-                field:'response'
-            },{
-                title:'创建时间',
-                field:'createTime',
-                formatter:function(value){
-                    return	timestampToTime(value);
+            }, {
+                title: '设备类型',
+                field: 'deviceModel'
+            }, {
+                title: '系统版本',
+                field: 'systemVersion'
+            }, {
+                title: '回复内容',
+                field: 'response'
+            }, {
+                title: '回复时间',
+                field: 'responseTime',
+                formatter: function (value) {
+                    if (value == null) {
+                        return "";
+                    }
+                    return timestampToTime(value);
                 }
-            },{
-                title:'操作',
-                field:'response',
-                width:40,
-                formatter:function(value,row){
+            }, {
+                title: '创建时间',
+                field: 'createTime',
+                formatter: function (value) {
+                    if (value == null) {
+                        return "";
+                    }
+                    return timestampToTime(value);
+                }
+            }, {
+                title: '操作',
+                field: 'response',
+                width: 40,
+                formatter: function (value, row) {
                     if (row.responseTime == null) {
-                        return '<a style="text-decoration:none" onClick="response(this,' + row.id + ')"href="javascript:;" title="回复"><i class="Hui-iconfont">&#xe6df;</i></a>';
-                    }else{
+                        return '<a style="text-decoration:none" onClick="response(this,' + row.id + ',' + row.userId + ')"href="javascript:;" title="回复"><i class="Hui-iconfont">&#xe6df;</i></a>';
+                    } else {
                         return "";
                     }
                 }
@@ -156,23 +187,34 @@
     }
 
 
-
     /*用户-停用*/
-    function response(obj, id) {
-        layer.confirm('回复', function (index) {
-            $.ajax({
-                method: 'POST',
-                url: apiHost + "manage/feedback/response",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "id": id, "content": "回复内容"},
-                dataType: 'json',
-                success: function (data) {
-                    layer.msg('回复成功!', {icon: 6, time: 1000});
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
+    function response(obj, id, userId) {
+        layer.open({
+            type: 1,
+            closeBtn: true,
+            shift: 7,
+            shadeClose: true,
+            content: "<div style='width:350px;'><p>请输入回复内容</p><textarea style='width: 300px;height: 150px;margin-left: 5px' id='content' class='form-control'/>" +
+                "<button style='margin-top:5%;' type='button' class='btn btn-block btn-success btn-lg' onclick='responseAjax(" + id + "," + userId + ")'>提交</button></div>"
         });
+    }
+
+    function responseAjax(id, userId) {
+        var content = $("#content").val();
+        $.ajax({
+            method: 'POST',
+            url: apiHost + "manage/feedback/response",
+            data: {"mtoken": sessionStorage.getItem('mToken'), "id": id, "userId": userId, "content": content},
+            dataType: 'json',
+            success: function (data) {
+                layer.msg('回复成功!', {icon: 6, time: 1000});
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        });
+        layer.closeAll();
+        $('.table-sort').bootstrapTable("refresh")
     }
 
 </script>

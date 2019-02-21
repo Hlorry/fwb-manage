@@ -52,6 +52,7 @@
                 <th>图片</th>
                 <th>设备类型</th>
                 <th>系统版本</th>
+                <th>应用版本</th>
                 <th>回复内容</th>
                 <th>回复时间</th>
                 <th>留言时间</th>
@@ -129,7 +130,7 @@
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2]+"-thumb.photo.web" : row.imgUrl;
                     return '<img style="width: 50px" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -138,6 +139,9 @@
             }, {
                 title: '系统版本',
                 field: 'systemVersion'
+            }, {
+                title: '应用版本',
+                field: 'appVersion'
             }, {
                 title: '回复内容',
                 field: 'response'

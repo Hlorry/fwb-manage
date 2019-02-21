@@ -170,7 +170,7 @@
                     if (row.avatar == null || row.avatar == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2] : row.avatar;
+                    var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2]+"-thumb.photo.web" : row.avatar;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -181,7 +181,7 @@
                     if (row.avatarCheckURL == null || row.avatarCheckURL == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] : row.avatarCheckURL;
+                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2]+"-thumb.photo.web" : row.avatarCheckURL;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -192,7 +192,7 @@
                     if (row.certificateImgUrl == null || row.certificateImgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2] : row.certificateImgUrl;
+                    var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2]+"-thumb.photo.web" : row.certificateImgUrl;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {

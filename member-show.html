@@ -109,7 +109,7 @@
                     if (user.avatar == null) {
                         $(".avatar").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else if (user.avatar.indexOf(" ") != -1) {
-                        $(".avatar").attr("src", urlHost + user.avatar.split(" ")[2]);
+                        $(".avatar").attr("src", urlHost + user.avatar.split(" ")[2]+"-thumb.photo.web");
                     } else {
                         $(".avatar").attr("src", user.avatar);
                     }
@@ -133,7 +133,7 @@
                     $("#birthday").html(user.birthday);
                     $("#height").html(user.height);
                     $("#bodyShape").html(user.bodyShape);
-                    $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2] : user.certificateImgUrl);
+                    $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2]+"-thumb.photo.web" : user.certificateImgUrl);
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {

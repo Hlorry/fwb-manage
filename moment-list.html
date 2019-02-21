@@ -145,7 +145,7 @@
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] : row.imgUrl;
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2]+"-thumb.photo.web" : row.imgUrl;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
 

@@ -62,6 +62,7 @@
                 <th>用户名</th>
                 <th>评论内容</th>
                 <th>评论时间</th>
+                <th>删除状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -138,6 +139,17 @@
                 field: 'createTime',
                 formatter: function (value) {
                     return timestampToTime(value);
+                }
+            }, {
+                title: '删除状态',
+                field: 'idDel',
+                width: 40,
+                formatter: function (value, row) {
+                    if (row.isDel == 0) {
+                        return '<span class="label label-success radius">正常</span>';
+                    } else if (row.isDel == 1) {
+                        return '<span class="label label-danger radius">已删除</span>';
+                    }
                 }
             }, {
                 title: '操作',

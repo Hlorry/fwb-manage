@@ -162,7 +162,7 @@
                     if (row.avatar == null || row.avatar == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2]+"-thumb.photo.web" : row.avatar;
+                    var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2] + "-thumb.photo.web" : row.avatar;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -173,7 +173,7 @@
                     if (row.avatarCheckURL == null || row.avatarCheckURL == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2]+"-thumb.photo.web" : row.avatarCheckURL;
+                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web" : row.avatarCheckURL;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -184,7 +184,7 @@
                     if (row.certificateImgUrl == null || row.certificateImgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2]+"-thumb.photo.web" : row.certificateImgUrl;
+                    var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : row.certificateImgUrl;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -252,6 +252,7 @@
                     } else {
                         html += '<a style="text-decoration:none" onClick="member_stop(this,\' + row.userId + \')"href="javascript:;" title="封禁"><i class="Hui-iconfont"><span style="color: red">&#xe631;&nbsp</span></i></a>';
                     }
+                    html += '<a style="text-decoration:none" class="ml-5" onClick="avatar_clear(this,' + row.userId + ')"href="javascript:;" title="清空头像"><i class="Hui-iconfont">&#xe624;&nbsp</i></a>'
                     return html;
                 }
             }]
@@ -295,6 +296,30 @@
                 success: function (data) {
                     if (data.code == 200) {
                         layer.msg('审核成功!', {icon: 6, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh")
+                    } else {
+                        layer.msg('服务器错误!', {icon: 6, time: 1000});
+                    }
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+    /*清空用户头像*/
+    function avatar_clear(obj, id) {
+        var msg = "确认清空吗？";
+        layer.confirm(msg, function (index) {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/avatar/clear",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg('清空成功!', {icon: 6, time: 1000});
                         $('.table-sort').bootstrapTable("refresh")
                     } else {
                         layer.msg('服务器错误!', {icon: 6, time: 1000});

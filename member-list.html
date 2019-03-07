@@ -73,9 +73,10 @@
                 <th width="40">性别</th>
                 <th width="90">昵称</th>
                 <th width="90">头像</th>
-                <th width="90">认证图片</th>
                 <th width="150">邮箱</th>
                 <th width="130">加入时间</th>
+                <th width="90">认证图片</th>
+                <th width="90">待审核头像</th>
                 <th width="70">认证状态</th>
                 <th width="70">头像状态</th>
                 <th width="70">封禁状态</th>
@@ -166,6 +167,15 @@
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
+                title: 'email',
+                field: 'email'
+            }, {
+                title: '创建时间',
+                field: 'createTime',
+                formatter: function (value) {
+                    return timestampToTime(value);
+                }
+            }, {
                 title: '待审核头像',
                 field: 'avatarCheckURL',
                 "class": "td-todayWord",
@@ -175,6 +185,18 @@
                     }
                     var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web" : row.avatarCheckURL;
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                }
+            }, {
+                title: '头像审核状态',
+                field: 'avatarCheck',
+                formatter: function (value, row) {
+                    if (row.avatarCheck == 2) {
+                        return '<span class="label label-warning radius">审核中</span>';
+                    } else if (row.avatarCheck == 1) {
+                        return '<span class="label label-success radius">已通过</span>';
+                    } else if (row.avatarCheck == -1) {
+                        return '<span class="label label-danger radius">未通过</span>';
+                    }
                 }
             }, {
                 title: '认证图片',
@@ -188,15 +210,6 @@
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
-                title: 'email',
-                field: 'email'
-            }, {
-                title: '创建时间',
-                field: 'createTime',
-                formatter: function (value) {
-                    return timestampToTime(value);
-                }
-            }, {
                 title: '认证状态',
                 field: 'createTime',
                 formatter: function (value, row) {
@@ -208,18 +221,6 @@
                         return '<span class="label label-danger radius">未通过</span>';
                     } else if (row.certificate == 2) {
                         return '<span class="label label-warning radius">认证中</span>';
-                    }
-                }
-            }, {
-                title: '头像审核状态',
-                field: 'avatarCheck',
-                formatter: function (value, row) {
-                    if (row.avatarCheck == 2) {
-                        return '<span class="label label-warning radius">审核中</span>';
-                    } else if (row.avatarCheck == 1) {
-                        return '<span class="label label-success radius">已通过</span>';
-                    } else if (row.avatarCheck == -1) {
-                        return '<span class="label label-danger radius">未通过</span>';
                     }
                 }
             }, {

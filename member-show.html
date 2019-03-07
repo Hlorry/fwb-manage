@@ -30,8 +30,9 @@
         <dt>
             <span class="f-18 username"></span>
         </dt>
-        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="about" style="width: 600px;height: 100px"></textarea></dd>
-        <a class="label label-success radius" id ="save" href="javascript:void(0)">保存</a>
+        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="about"
+                                                               style="width: 600px;height: 100px"></textarea></dd>
+        <a class="label label-success radius" id="save" href="javascript:void(0)">保存</a>
     </dl>
 </div>
 <div class="pd-20">
@@ -60,6 +61,10 @@
         <tr>
             <th class="text-r">身高：</th>
             <td id="height"></td>
+        </tr>
+        <tr>
+            <th class="text-r">地理位置：</th>
+            <td id="location"></td>
         </tr>
         <tr>
             <th class="text-r">生日：</th>
@@ -105,11 +110,12 @@
                     var user = data.data.user;
                     var private_photo = data.data.private;
                     var public_photo = data.data.public;
+                    var location = data.data.location;
                     console.log(user);
                     if (user.avatar == null) {
                         $(".avatar").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else if (user.avatar.indexOf(" ") != -1) {
-                        $(".avatar").attr("src", urlHost + user.avatar.split(" ")[2]+"-thumb.photo.web");
+                        $(".avatar").attr("src", urlHost + user.avatar.split(" ")[2] + "-thumb.photo.web");
                     } else {
                         $(".avatar").attr("src", user.avatar);
                     }
@@ -129,11 +135,14 @@
                         certificate = "认证中";
                     }
                     $("#tag").html(user.tag);
+                    if (location != null) {
+                        $("#location").html(location.address);
+                    }
                     $("#certificate").html(certificate);
                     $("#birthday").html(user.birthday);
                     $("#height").html(user.height);
                     $("#bodyShape").html(user.bodyShape);
-                    $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2]+"-thumb.photo.web" : user.certificateImgUrl);
+                    $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : user.certificateImgUrl);
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {
@@ -158,12 +167,12 @@
             },
         });
 
-        $("#save").on("click",function(){
+        $("#save").on("click", function () {
             var about = $(".about").val();
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/fix/userInfo",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""),"aboutme":about},
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "aboutme": about},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('修改成功!', {icon: 6, time: 1000});

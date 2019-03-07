@@ -63,6 +63,7 @@
                 <th>评论内容</th>
                 <th>评论时间</th>
                 <th>删除状态</th>
+                <th>封禁状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -152,6 +153,17 @@
                     }
                 }
             }, {
+                title: '封禁状态',
+                field: 'idDel',
+                width: 40,
+                formatter: function (value, row) {
+                    if (row.isBan == 0) {
+                        return '<span class="label label-success radius">正常</span>';
+                    } else if (row.isBan == 1) {
+                        return '<span class="label label-danger radius">已封禁</span>';
+                    }
+                }
+            }, {
                 title: '操作',
                 field: 'id',
                 formatter: function (value, row) {
@@ -173,10 +185,10 @@
     function queryParams(params) {
         return {
             "mtoken": sessionStorage.getItem('mToken'),
-            "momentId":$("#momentId").val(),
-            "commentId":$("#commentId").val(),
+            "momentId": $("#momentId").val(),
+            "commentId": $("#commentId").val(),
             "check": $("#check").val(),
-            "userName":$("#userName").val(),
+            "userName": $("#userName").val(),
             "offset": params.offset,
             "size": params.limit
         };

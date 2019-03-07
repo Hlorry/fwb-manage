@@ -67,6 +67,18 @@
             <td id="location"></td>
         </tr>
         <tr>
+            <th class="text-r">经度：</th>
+            <td id="lng"></td>
+        </tr>
+        <tr>
+            <th class="text-r">纬度：</th>
+            <td id="lat"></td>
+        </tr>
+        <tr>
+            <th class="text-r">最近登录时间：</th>
+            <td id="loginTime"></td>
+        </tr>
+        <tr>
             <th class="text-r">生日：</th>
             <td id="birthday"></td>
         </tr>
@@ -137,12 +149,19 @@
                     $("#tag").html(user.tag);
                     if (location != null) {
                         $("#location").html(location.address);
+                        $("#lat").html(location.lat);
+                        $("#lng").html(location.lng);
+                        $("#loginTime").html(timestampToTime(location.loginTime));
                     }
                     $("#certificate").html(certificate);
                     $("#birthday").html(user.birthday);
                     $("#height").html(user.height);
                     $("#bodyShape").html(user.bodyShape);
-                    $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : user.certificateImgUrl);
+                    if (user.certificateImgUrl == null) {
+                        $("#certificateImgUrl").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
+                    } else {
+                        $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : user.certificateImgUrl);
+                    }
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {

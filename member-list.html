@@ -288,7 +288,13 @@
 
     /*用户-停用*/
     function member_check(obj, id, check) {
-        layer.confirm('确认要通过认证吗？', function (index) {
+        var msg;
+        if (check == -1) {
+            msg = "确认不通过认证吗？"
+        } else {
+            msg = "确认通过认证吗？"
+        }
+        layer.confirm(msg, function (index) {
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/user/check",

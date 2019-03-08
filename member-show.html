@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <th class="text-r">地理位置：</th>
-            <td id="location"></td>
+            <td><input id="location" style="width: 550px" placeholder="英文逗号隔开(逗号后面跟个英文状态空格),按照城市地区国家的顺序 eg:(chengdu, sichuan, china)"/> &nbsp<a class="label label-success radius" id="saveLocation" href="javascript:void(0)">保存</a></td>
         </tr>
         <tr>
             <th class="text-r">经度：</th>
@@ -148,7 +148,7 @@
                     }
                     $("#tag").html(user.tag);
                     if (location != null) {
-                        $("#location").html(location.address);
+                        $("#location").val(location.address);
                         $("#lat").html(location.lat);
                         $("#lng").html(location.lng);
                         $("#loginTime").html(timestampToTime(location.loginTime));
@@ -192,6 +192,23 @@
                 method: 'POST',
                 url: apiHost + "manage/fix/userInfo",
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "aboutme": about},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('修改成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+
+        });
+
+        $("#saveLocation").on("click", function () {
+            var address = $("#location").val();
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/fix/location",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "address": address},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('修改成功!', {icon: 6, time: 1000});

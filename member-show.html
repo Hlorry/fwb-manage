@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <th class="text-r">地理位置：</th>
-            <td><input id="location" style="width: 550px" placeholder="英文逗号隔开(逗号后面跟个英文状态空格),按照城市地区国家的顺序 eg:(chengdu, sichuan, china)"/> &nbsp<a class="label label-success radius" id="saveLocation" href="javascript:void(0)">保存</a></td>
+            <td><input id="location" style="width: 200px"/> &nbsp<a class="label label-success radius" id="updateLocation" href="javascript:void(0)">刷新</a></td>
         </tr>
         <tr>
             <th class="text-r">经度：</th>
@@ -197,24 +197,25 @@
                     layer.msg('修改成功!', {icon: 6, time: 1000});
                 },
                 error: function (data) {
-                    console.log(data.msg);
+                    layer.msg('修改失败!', {icon: 5, time: 1000});
                 },
             });
 
         });
 
-        $("#saveLocation").on("click", function () {
-            var address = $("#location").val();
+        $("#updateLocation").on("click", function () {
             $.ajax({
                 method: 'POST',
-                url: apiHost + "manage/fix/location",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "address": address},
+                url: apiHost + "manage/update/location",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", "")},
                 dataType: 'json',
                 success: function (data) {
-                    layer.msg('修改成功!', {icon: 6, time: 1000});
+                    console.log(data);
+                    $("#location").val(data.data.location.address);
                 },
                 error: function (data) {
                     console.log(data.msg);
+                    layer.msg('获取失败!', {icon: 5, time: 1000});
                 },
             });
 
@@ -235,6 +236,7 @@
                 },
                 error: function (data) {
                     console.log(data.msg);
+                    layer.msg('封禁失败!', {icon: 5, time: 1000});
                 },
             });
         });

@@ -73,9 +73,9 @@
                 if (data.code == 200) {
                     data = data.data;
                     $("#total").html(data.total);
-                    $("#tcount").html(data.tCount);
+                    $("#tcount").html(data.yCount);
                     $("#ltcount").html(data.ltCount);
-                    $("#ycount").html(data.yCount);
+                    $("#ycount").html(data.tCount);
                 } else {
                     layer.msg('服务器错误!', {icon: 6, time: 1000});
                 }

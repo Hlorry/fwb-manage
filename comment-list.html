@@ -131,13 +131,15 @@
                 field: 'userId'
             }, {
                 title: '昵称',
-                field: 'nickName'
+                field: 'nickName',
+                width: 150
             }, {
                 title: '评论内容',
                 field: 'content'
             }, {
                 title: '创建时间',
                 field: 'createTime',
+                width: 150,
                 formatter: function (value) {
                     return timestampToTime(value);
                 }

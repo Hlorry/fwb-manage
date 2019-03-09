@@ -283,7 +283,12 @@
 
     /*用户-查看*/
     function member_show(title, id) {
-        window.location.href = 'member-show.html?' + id;
+        var index = layer.open({
+            type: 2,
+            title: title + " 的个人详细信息",
+            content: 'member-show.html?' + id
+        });
+        layer.full(index);
     }
 
     /*用户-停用*/

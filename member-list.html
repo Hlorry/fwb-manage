@@ -79,6 +79,7 @@
                 <th width="90">待审核头像</th>
                 <th width="70">认证状态</th>
                 <th width="70">头像状态</th>
+                <th width="40">注销</th>
                 <th width="70">封禁状态</th>
                 <th width="30">操作</th>
             </tr>
@@ -229,6 +230,17 @@
                 formatter: function (value, row) {
                     var ret = row.isban == 1 ? "已封禁" : "正常";
                     if (row.isban == 1) {
+                        return '<span class="label label-danger radius">' + ret + '</span>';
+                    } else {
+                        return '<span class="label label-success radius">' + ret + '</span>';
+                    }
+                }
+            }, {
+                title: '注销状态',
+                field: 'islogout',
+                formatter: function (value, row) {
+                    var ret = row.islogout == 1 ? "是" : "否";
+                    if (row.islogout == 1) {
                         return '<span class="label label-danger radius">' + ret + '</span>';
                     } else {
                         return '<span class="label label-success radius">' + ret + '</span>';

@@ -131,7 +131,7 @@
                         return "";
                     }
                     var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2]+"-thumb.photo.web" : row.imgUrl;
-                    return '<img style="width: 50px" src="' + imgSrc + '"/>';
+                    return '<img onClick="addClick(this)" style="width: 50px" src="' + imgSrc + '"/>';
                 }
             }, {
                 title: '设备类型',

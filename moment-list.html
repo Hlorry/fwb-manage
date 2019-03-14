@@ -146,8 +146,8 @@
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2]+"-thumb.photo.web" : row.imgUrl;
-                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
+                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
 
             }, {
@@ -255,30 +255,33 @@
 
     /*动态-审核*/
     function check(obj, id, state) {
-        var note;
         if (state == 1) {
-            note = "确认要通过么？";
+            checkMoment(id, state);
         } else {
-            note = "确认不通过么？";
-        }
-        layer.confirm(note, function (index) {
-            $.ajax({
-                method: 'POST',
-                url: apiHost + "manage/moment/check",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id, "check": state},
-                dataType: 'json',
-                success: function (data) {
-                    if (data.code == 200) {
-                        layer.msg('审核成功!', {icon: 6, time: 1000});
-                        $('.table-sort').bootstrapTable("refresh");
-                    } else {
-                        layer.msg('服务器错误!', {icon: 6, time: 1000});
-                    }
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
+            layer.confirm("确认不通过么？", function (index) {
+                checkMoment(id, state);
             });
+        }
+
+    }
+
+    function checkMoment(id, state) {
+        $.ajax({
+            method: 'POST',
+            url: apiHost + "manage/moment/check",
+            data: {"mtoken": sessionStorage.getItem('mToken'), "momentId": id, "check": state},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.msg('审核成功!', {icon: 6, time: 1000});
+                    $('.table-sort').bootstrapTable("refresh");
+                } else {
+                    layer.msg('服务器错误!', {icon: 6, time: 1000});
+                }
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
         });
     }
 

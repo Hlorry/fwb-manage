@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="lib/html5shiv.js"></script>
+    <script type="text/javascript" src="lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="lib/bootstrap/css/page.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>消息发送</title>
+</head>
+<body>
+<div class="cl pd-20" style=" background-color:#5bacb6">
+    <dl style="margin-left:80px; color:#fff">
+        <dt>
+            <span class="f-18">融云全体消息一个小时内只能发送2次，一天只能发送三次</span>
+        </dt>
+        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="message"
+                                                               style="width: 600px;height: 100px"></textarea></dd>
+        <a class="label label-success radius" id="send" href="javascript:void(0)">发送</a>
+    </dl>
+</div>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="lib/base.js"></script>
+<script type="text/javascript" src="lib/checkCookie.js"></script>
+<script>
+    $(function () {
+        $("#send").on("click", function () {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "/rongyun/send/txt",
+                data: {"text": $(".message").val()},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('发送成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                    layer.msg('发送失败!', {icon: 5, time: 1000});
+                },
+            });
+        });
+    });
+</script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+</body>
+</html>

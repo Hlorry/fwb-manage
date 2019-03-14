@@ -165,7 +165,7 @@
                         return "";
                     }
                     var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2] + "-thumb.photo.web" : row.avatar;
-                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
                 title: 'email',
@@ -185,7 +185,7 @@
                         return "";
                     }
                     var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web" : row.avatarCheckURL;
-                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
                 title: '头像审核状态',
@@ -208,7 +208,7 @@
                         return "";
                     }
                     var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : row.certificateImgUrl;
-                    return '<img style="width: 50px;" src="' + imgSrc + '"/>';
+                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
                 title: '认证状态',
@@ -358,30 +358,33 @@
 
     /*用户-停用*/
     function avatar_check(obj, id, check) {
-        var msg;
         if (check == -1) {
-            msg = "确认不通过吗？"
-        } else {
-            msg = "确认通过吗？"
-        }
-        layer.confirm(msg, function (index) {
-            $.ajax({
-                method: 'POST',
-                url: apiHost + "manage/avatar/check",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "check": check},
-                dataType: 'json',
-                success: function (data) {
-                    if (data.code == 200) {
-                        layer.msg('审核成功!', {icon: 6, time: 1000});
-                        $('.table-sort').bootstrapTable("refresh")
-                    } else {
-                        layer.msg('服务器错误!', {icon: 6, time: 1000});
-                    }
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
+            layer.confirm("确认不通过吗？", function (index) {
+                checkAvatar(id, check)
             });
+        } else {
+            checkAvatar(id, check)
+        }
+
+    }
+
+    function checkAvatar(id, check) {
+        $.ajax({
+            method: 'POST',
+            url: apiHost + "manage/avatar/check",
+            data: {"mtoken": sessionStorage.getItem('mToken'), "userId": id, "check": check},
+            dataType: 'json',
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.msg('审核成功!', {icon: 6, time: 1000});
+                    $('.table-sort').bootstrapTable("refresh")
+                } else {
+                    layer.msg('服务器错误!', {icon: 6, time: 1000});
+                }
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
         });
     }
 

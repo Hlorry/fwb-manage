@@ -115,10 +115,12 @@
                 }
             }, {
                 title: 'id',
-                field: 'id'
+                field: 'id',
+                width: 80,
             }, {
                 title: '用户名',
-                field: 'userName'
+                field: 'userName',
+                width: 80,
             }, {
                 title: '反馈内容',
                 field: 'content'
@@ -130,7 +132,7 @@
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2]+"-thumb.photo.web" : row.imgUrl;
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
                     return '<img onClick="addClick(this)" style="width: 50px" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -148,6 +150,7 @@
             }, {
                 title: '回复时间',
                 field: 'responseTime',
+                width: 150,
                 formatter: function (value) {
                     if (value == null) {
                         return "";
@@ -157,6 +160,7 @@
             }, {
                 title: '创建时间',
                 field: 'createTime',
+                width: 150,
                 formatter: function (value) {
                     if (value == null) {
                         return "";

@@ -42,9 +42,14 @@
         <input type="text" class="input-text" style="width:250px" placeholder="用户名" id="userName" name="">
         <label>审核状态</label><select type="text" class="input-text" style="width:100px" id="check" name="check">
             <option value="">全部</option>
-            <option value="0">未审核</option>
+            <option value="0" selected>未审核</option>
             <option value="1">通过</option>
             <option value="-1">未通过</option>
+        </select>
+        <label>封禁状态</label><select type="text" class="input-text" style="width:100px" id="ban" name="ban">
+            <option value="">全部</option>
+            <option value="0" selected>未封禁</option>
+            <option value="1">已封禁</option>
         </select>
         <button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜索
@@ -226,6 +231,7 @@
             "mtoken": sessionStorage.getItem('mToken'),
             "userId": $("#userId").val(),
             "check": $("#check").val(),
+            "ban": $("#ban").val(),
             "userName": $("#userName").val(),
             "offset": params.offset,
             "size": params.limit

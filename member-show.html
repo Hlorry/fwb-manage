@@ -28,7 +28,7 @@
     <img class="avatar size-XL l" src="static/h-ui/images/ucnter/avatar-default.jpg">
     <dl style="margin-left:80px; color:#fff">
         <dt>
-            <span class="f-18 username"></span>
+            <input class="f-18 username"/><a class="label label-success radius" id="rename" href="javascript:void(0)">保存</a>
         </dt>
         <dd class="pt-10 f-12" style="margin-left:0"><textarea class="about"
                                                                style="width: 600px;height: 100px"></textarea></dd>
@@ -131,7 +131,7 @@
                     } else {
                         $(".avatar").attr("src", user.avatar);
                     }
-                    $(".username").html(user.userName);
+                    $(".username").val(user.userName);
                     $(".about").html(user.aboutme);
                     $("#gender").html(user.gender == 0 ? "默认" : user.gender == 1 ? "男" : "女")
                     $("#email").html(user.email);
@@ -192,6 +192,28 @@
                 method: 'POST',
                 url: apiHost + "manage/fix/userInfo",
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "aboutme": about},
+                dataType: 'json',
+                success: function (data) {
+                    if(data.code==200){
+                        layer.msg('修改成功!', {icon: 6, time: 1000});
+                        $(".username").val(userName);
+                    }else{
+                        layer.msg('修改失败!', {icon: 5, time: 1000});
+                    }
+                },
+                error: function (data) {
+                    layer.msg('修改失败!', {icon: 5, time: 1000});
+                },
+            });
+
+        });
+
+        $("#rename").on("click", function () {
+            var userName = $(".username").val();
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/rename",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "userName": userName},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('修改成功!', {icon: 6, time: 1000});

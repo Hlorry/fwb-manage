@@ -55,6 +55,27 @@
         </tr>
         </tbody>
     </table>
+    <br/>
+    <br/>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="7" scope="col">男女统计</th>
+        </tr>
+        <tr class="text-c">
+            <th>男</th>
+            <th>女</th>
+            <th>男女比例</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-c">
+            <td id="male"></td>
+            <td id="female">0</td>
+            <td id="rate"></td>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
@@ -76,6 +97,9 @@
                     $("#tcount").html(data.yCount);
                     $("#ltcount").html(data.ltCount);
                     $("#ycount").html(data.tCount);
+                    $("#male").html(data.maleCount);
+                    $("#female").html(data.total-data.maleCount);
+                    $("#rate").html((data.maleCount/data.total).toFixed(2)+" : "+((data.total-data.maleCount)/data.total).toFixed(2));
                 } else {
                     layer.msg('服务器错误!', {icon: 6, time: 1000});
                 }

@@ -245,20 +245,20 @@
 
     });
 
-    /*图片-封禁*/
+    /*图片-删除*/
     function ban(obj, id) {
-        layer.confirm('确定要封禁吗', function (index) {
+        layer.confirm('确定要删除吗', function (index) {
             $.ajax({
                 method: 'POST',
-                url: apiHost + "manage/photo/ban",
+                url: apiHost + "manage/photo/del",
                 data: {"mtoken": sessionStorage.getItem('mToken'), "photoId": id},
                 dataType: 'json',
                 success: function (data) {
-                    layer.msg('封禁成功!', {icon: 6, time: 1000});
+                    layer.msg('删除成功!', {icon: 6, time: 1000});
                 },
                 error: function (data) {
                     console.log(data.msg);
-                    layer.msg('封禁失败!', {icon: 5, time: 1000});
+                    layer.msg('删除失败!', {icon: 5, time: 1000});
                 },
             });
         });

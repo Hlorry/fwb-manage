@@ -63,6 +63,13 @@
             <option value="0">未通过</option>
             <option value="1">已认证</option>
         </select>
+        <label>封禁状态</label>
+        <select type="text" class="input-text" style="width:100px" id="isban"
+                name="certificate">
+            <option value="">全部</option>
+            <option value="0" selected>未封禁</option>
+            <option value="1">已封禁</option>
+        </select>
         <button type="button" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜索
         </button>
@@ -320,6 +327,7 @@
             "userId": $("#userId").val(),
             "country": $("#country").val(),
             "check": $("#check").val(),
+            "isban": $("#isban").val(),
             "avatarCheck": $("#avatarCheck").val(),
             "certificate": $("#certificate").val(),
             "offset": params.offset,

@@ -300,6 +300,7 @@
                 if (data.code == 200) {
                     console.log(data);
                     var html = '<option value="">全部</option>';
+                    html+='<option value="null">无</option>';
                     for (var i = 0; i < data.data.countries.length; i++) {
                         if (data.data.countries[i] != null) {
                             html += '<option value="' + data.data.countries[i] + '">' + data.data.countries[i] + '</option>';

@@ -86,6 +86,10 @@
             <th class="text-r">体型：</th>
             <td id="bodyShape"></td>
         </tr>
+        <tr>
+            <th class="text-r">相同设备Id的账号：</th>
+            <td id="repeatNames"></td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -123,6 +127,7 @@
                     var private_photo = data.data.private;
                     var public_photo = data.data.public;
                     var location = data.data.location;
+                    var repeatNames = data.data.repeatNames;
                     console.log(user);
                     if (user.avatar == null) {
                         $(".avatar").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
@@ -157,6 +162,7 @@
                     $("#birthday").html(user.birthday);
                     $("#height").html(user.height);
                     $("#bodyShape").html(user.bodyShape);
+                    $("#repeatNames").html(repeatNames);
                     if (user.certificateImgUrl == null) {
                         $("#certificateImgUrl").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else {
@@ -165,16 +171,16 @@
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {
-                            var imgSrc = contains(public_photo[i].url, " ") ? public_photo[i].url.split(" ")[2] : public_photo[i].url;
-                            html += `<img onClick="ban(this,` + public_photo[i].id + `)" data-id=${public_photo[i].id} width='70px' height="70px" src=` + imgSrc + `>`
+                            var imgSrc = contains(public_photo[i].url, " ") ? urlHost+public_photo[i].url.split(" ")[2] + "-thumb.photo.web": public_photo[i].url;
+                            html += `<img onClick="ban(this,` + public_photo[i].id + `)" data-id=${public_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#public").append(html);
                     }
                     if (private_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < private_photo.length; i++) {
-                            var imgSrc = contains(private_photo[i].url, " ") ? private_photo[i].url.split(" ")[2] : private_photo[i].url;
-                            html += `<img onClick="ban(this,` + private_photo[i].id + `)" data-id=${private_photo[i].id} width='70px' height="70px" src=` + imgSrc + `>`
+                            var imgSrc = contains(private_photo[i].url, " ") ? urlHost+private_photo[i].url.split(" ")[2] + "-thumb.photo.web" : private_photo[i].url;
+                            html += `<img onClick="ban(this,` + private_photo[i].id + `)" data-id=${private_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#private").append(html);
                     }

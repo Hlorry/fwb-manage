@@ -71,7 +71,7 @@
             fromData.append("name", $("#name").val());
             fromData.append("description", $("#description").val());
             fromData.append("status", $("#status").val());
-            fromData.append("imgs", $("#imgs")[0].files[0]);
+            fromData.append("imgs", $("#imgs")[0].files);
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/topic/save",

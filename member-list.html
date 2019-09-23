@@ -86,7 +86,7 @@
                 <th width="90">头像</th>
                 <th width="150">邮箱</th>
                 <th width="150">注册ip</th>
-                <th width="150">登录ip</th>
+                <th width="150">最近登录ip</th>
                 <th width="130">加入时间</th>
                 <th width="90">认证图片</th>
                 <th width="90">待审核头像</th>
@@ -186,11 +186,11 @@
                 title: 'email',
                 field: 'email'
             }, {
-                title: 'ip',
+                title: '注册ip',
                 field: 'ip'
             }, {
-                title: 'loginIp',
-                field: 'loginIp'
+                title: '最近登陆ip',
+                field: 'lastIp'
             }, {
                 title: '创建时间',
                 field: 'createTime',
@@ -308,7 +308,7 @@
                 if (data.code == 200) {
                     console.log(data);
                     var html = '<option value="">全部</option>';
-                    html+='<option value="null">无</option>';
+                    html += '<option value="null">无</option>';
                     for (var i = 0; i < data.data.countries.length; i++) {
                         if (data.data.countries[i] != null) {
                             html += '<option value="' + data.data.countries[i] + '">' + data.data.countries[i] + '</option>';

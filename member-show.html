@@ -28,7 +28,8 @@
     <img class="avatar size-XL l" src="static/h-ui/images/ucnter/avatar-default.jpg">
     <dl style="margin-left:80px; color:#fff">
         <dt>
-            <input class="f-18 username"/><a class="label label-success radius" id="rename" href="javascript:void(0)">保存</a>
+            <input class="f-18 username"/><a class="label label-success radius" id="rename"
+                                             href="javascript:void(0)">保存</a>
         </dt>
         <dd class="pt-10 f-12" style="margin-left:0"><textarea class="about"
                                                                style="width: 600px;height: 100px"></textarea></dd>
@@ -64,7 +65,9 @@
         </tr>
         <tr>
             <th class="text-r">地理位置：</th>
-            <td><input id="location" style="width: 200px"/> &nbsp<a class="label label-success radius" id="updateLocation" href="javascript:void(0)">刷新</a></td>
+            <td><input id="location" style="width: 200px"/> &nbsp<a class="label label-success radius"
+                                                                    id="updateLocation" href="javascript:void(0)">刷新</a>
+            </td>
         </tr>
         <tr>
             <th class="text-r">经度：</th>
@@ -89,6 +92,11 @@
         <tr>
             <th class="text-r">相同设备Id的账号(包含自己)：</th>
             <td id="repeatNames"></td>
+        </tr>
+        <tr>
+            <th class="text-r">封禁设备</th>
+            <td><input style="width: 200px" id="deviceId"/> &nbsp<a class="label label-success radius" id="banDeviceId"
+                                                                    href="javascript:void(0)">封禁</a></td>
         </tr>
         </tbody>
     </table>
@@ -128,10 +136,10 @@
                     var public_photo = data.data.public;
                     var location = data.data.location;
                     var repeatNamesOjb = data.data.repeatNames;
-                    var repeatNames="";
+                    var repeatNames = "";
                     console.log(user);
-                    for(var i=0;i<repeatNamesOjb.length;i++){
-                        repeatNames+=repeatNamesOjb[i]+","
+                    for (var i = 0; i < repeatNamesOjb.length; i++) {
+                        repeatNames += repeatNamesOjb[i] + ","
                     }
 
                     if (user.avatar == null) {
@@ -145,6 +153,11 @@
                     $(".about").html(user.aboutme);
                     $("#gender").html(user.gender == 0 ? "默认" : user.gender == 1 ? "男" : "女")
                     $("#email").html(user.email);
+                    $("#deviceId").val(user.deviceId);
+                    if (user.deviceBan > 0) {
+                        $("#banDeviceId").hide();
+                    }
+
                     $("#createTime").html(timestampToTime(user.createTime));
                     var certificate;
                     if (user.certificate == 1) {
@@ -176,7 +189,7 @@
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {
-                            var imgSrc = contains(public_photo[i].url, " ") ? urlHost+public_photo[i].url.split(" ")[2] + "-thumb.photo.web": public_photo[i].url;
+                            var imgSrc = contains(public_photo[i].url, " ") ? urlHost + public_photo[i].url.split(" ")[2] + "-thumb.photo.web" : public_photo[i].url;
                             html += `<img onClick="ban(this,` + public_photo[i].id + `)" data-id=${public_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#public").append(html);
@@ -184,7 +197,7 @@
                     if (private_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < private_photo.length; i++) {
-                            var imgSrc = contains(private_photo[i].url, " ") ? urlHost+private_photo[i].url.split(" ")[2] + "-thumb.photo.web" : private_photo[i].url;
+                            var imgSrc = contains(private_photo[i].url, " ") ? urlHost + private_photo[i].url.split(" ")[2] + "-thumb.photo.web" : private_photo[i].url;
                             html += `<img onClick="ban(this,` + private_photo[i].id + `)" data-id=${private_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#private").append(html);
@@ -205,10 +218,10 @@
                 data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "aboutme": about},
                 dataType: 'json',
                 success: function (data) {
-                    if(data.code==200){
+                    if (data.code == 200) {
                         layer.msg('修改成功!', {icon: 6, time: 1000});
                         $(".username").val(userName);
-                    }else{
+                    } else {
                         layer.msg('修改失败!', {icon: 5, time: 1000});
                     }
                 },
@@ -224,7 +237,11 @@
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/rename",
-                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""), "userName": userName},
+                data: {
+                    "mtoken": sessionStorage.getItem('mToken'),
+                    "userId": param.replace("?", ""),
+                    "userName": userName
+                },
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('修改成功!', {icon: 6, time: 1000});
@@ -249,6 +266,24 @@
                 error: function (data) {
                     console.log(data.msg);
                     layer.msg('获取失败!', {icon: 5, time: 1000});
+                },
+            });
+
+        });
+
+
+        $("#banDeviceId").on("click", function () {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/ban/deviceId",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "deviceId": $("#deviceId").val()},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('封禁成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                    layer.msg('封禁失败!', {icon: 5, time: 1000});
                 },
             });
 

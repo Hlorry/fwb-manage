@@ -127,8 +127,13 @@
                     var private_photo = data.data.private;
                     var public_photo = data.data.public;
                     var location = data.data.location;
-                    var repeatNames = data.data.repeatNames;
+                    var repeatNamesOjb = data.data.repeatNames;
+                    var repeatNames="";
                     console.log(user);
+                    for(var i=0;i<repeatNamesOjb.length;i++){
+                        repeatNames+=repeatNamesOjb[i]+","
+                    }
+
                     if (user.avatar == null) {
                         $(".avatar").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else if (user.avatar.indexOf(" ") != -1) {

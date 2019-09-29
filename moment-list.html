@@ -33,13 +33,9 @@
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c"> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
-               class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
-               class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="用户id" id="userId" name="">
-        <input type="text" class="input-text" style="width:250px" placeholder="用户名" id="userName" name="">
+        <input type="text" class="input-text" style="width:150px" placeholder="用户id" id="userId" name="">
+        <input type="text" class="input-text" style="width:150px" placeholder="用户名" id="userName" name="">
+        <input type="text" class="input-text" style="width:150px" placeholder="动态id" id="momentId" name="">
         <label>审核状态</label><select type="text" class="input-text" style="width:100px" id="check" name="check">
             <option value="">全部</option>
             <option value="0" selected>未审核</option>
@@ -268,6 +264,7 @@
             "ban": $("#ban").val(),
             "userName": $("#userName").val(),
             "topicId": $("#topicId").val(),
+            "momentId": $("#momentId").val(),
             "hot": $("#hot").val(),
             "offset": params.offset,
             "size": params.limit

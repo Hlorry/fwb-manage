@@ -76,6 +76,28 @@
         </tr>
         </tbody>
     </table>
+    <br/>
+    <br/>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="7" scope="col">会员统计</th>
+        </tr>
+        <tr class="text-c">
+            <th>今日开通</th>
+            <th>正式会员</th>
+            <th>会员总数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-c">
+            <td id="vipToday"></td>
+            <td id="vip">0</td>
+            <td id="vipTotal"></td>
+        </tr>
+        </tbody>
+    </table>
+
 
 </div>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
@@ -100,6 +122,9 @@
                     $("#male").html(data.maleCount);
                     $("#female").html(data.total-data.maleCount);
                     $("#rate").html((data.maleCount/data.total).toFixed(2)+" : "+((data.total-data.maleCount)/data.total).toFixed(2));
+                    $("#vip").html(data.vip);
+                    $("#vipToday").html(data.vipToday);
+                    $("#vipTotal").html(data.vipTotal);
                 } else {
                     layer.msg('服务器错误!', {icon: 6, time: 1000});
                 }

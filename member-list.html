@@ -230,13 +230,22 @@
                 title: '会员开始时间',
                 field: 'vipStartTime',
                 formatter: function (value) {
-                    return timestampToTime(value);
+                    if (value != 0) {
+                        return timestampToTime(value);
+                    } else {
+                        return "-"
+                    }
+
                 }
             }, {
                 title: '会员到期时间',
                 field: 'vipEndTime',
                 formatter: function (value) {
-                    return timestampToTime(value);
+                    if (value != 0) {
+                        return timestampToTime(value);
+                    } else {
+                        return "-"
+                    }
                 }
             }, {
                 title: '待审核头像',

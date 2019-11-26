@@ -98,6 +98,11 @@
             <td><input style="width: 200px" id="deviceId"/> &nbsp<a class="label label-success radius" id="banDeviceId"
                                                                     href="javascript:void(0)">封禁</a></td>
         </tr>
+        <tr>
+            <th class="text-r">禁言（小时）</th>
+            <td><input style="width: 50px" id="hours"/> &nbsp<a class="label label-success radius" id="forbidden"
+                                                                    href="javascript:void(0)">禁言</a></td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -284,6 +289,23 @@
                 error: function (data) {
                     console.log(data.msg);
                     layer.msg('封禁失败!', {icon: 5, time: 1000});
+                },
+            });
+
+        });
+
+        $("#forbidden").on("click", function () {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/forbidden",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "hours": $("#hours").val(),"userId": param.replace("?", "")},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('禁言成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                    layer.msg('禁言失败!', {icon: 5, time: 1000});
                 },
             });
 

@@ -107,6 +107,7 @@
             pagination: true, //分页
             singleSelect: true,
             search: false,
+            pageSize: 5,
             pageList: [5, 10, 20, 50],
             contentType: "application/x-www-form-urlencoded",
             sidePagination: "server",
@@ -144,19 +145,6 @@
                 title: '内容',
                 field: 'content',
                 width: 250
-            }, {
-                title: '图片',
-                field: 'content',
-                "class": "td-todayWord",
-                width: 80,
-                formatter: function (value, row) {
-                    if (row.imgUrl == null || row.imgUrl == undefined) {
-                        return "";
-                    }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
-                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
-                }
-
             }, {
                 title: '创建时间',
                 field: 'createTime',
@@ -205,6 +193,19 @@
                         return '<span class="label label-success radius">正常</span>';
                     }
                 }
+            }, {
+                title: '图片',
+                field: 'content',
+                "class": "td-todayWord",
+                width: 80,
+                formatter: function (value, row) {
+                    if (row.imgUrl == null || row.imgUrl == undefined) {
+                        return "";
+                    }
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
+                    return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
+                }
+
             }, {
                 title: '操作',
                 field: 'id',

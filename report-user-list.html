@@ -127,7 +127,13 @@
                     if(row.imgUrls==null || row.imgUrls==undefined){
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrls, " ") ? urlHost + row.imgUrls.split(" ")[2]+"-thumb.photo.web" : row.imgUrls;
+                    var type = row.imgUrls.substr(0,1);
+                    var imgSrc = "";
+                    if(type=="Q"){
+                        imgSrc = urlHost + row.imgUrls.split(" ")[2] + "-thumb.photo.web";
+                    }else{
+                        imgSrc = row.imgUrls.split(" ")[2];
+                    }
                     return '<img style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             },{

@@ -132,7 +132,13 @@
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
+                    var type = row.imgUrl.substr(0,1);
+                    var imgSrc = "";
+                    if(type=="Q"){
+                        imgSrc = urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web";
+                    }else{
+                        imgSrc = row.imgUrl.split(" ")[2];
+                    }
                     return '<img onClick="addClick(this)" style="width: 50px" src="' + imgSrc + '"/>';
                 }
             }, {

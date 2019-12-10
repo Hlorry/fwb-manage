@@ -150,7 +150,14 @@
                     if (user.avatar == null) {
                         $(".avatar").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else if (user.avatar.indexOf(" ") != -1) {
-                        $(".avatar").attr("src", urlHost + user.avatar.split(" ")[2] + "-thumb.photo.web");
+                        var type = user.avatar.substr(0,1);
+                        var imgSrc = "";
+                        if(type=="Q"){
+                            imgSrc = urlHost + user.avatar.split(" ")[2] + "-thumb.photo.web";
+                        }else{
+                            imgSrc = user.avatar.split(" ")[2];
+                        }
+                        $(".avatar").attr("src", imgSrc);
                     } else {
                         $(".avatar").attr("src", user.avatar);
                     }
@@ -194,7 +201,13 @@
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {
-                            var imgSrc = contains(public_photo[i].url, " ") ? urlHost + public_photo[i].url.split(" ")[2] + "-thumb.photo.web" : public_photo[i].url;
+                            var type = public_photo[i].url.substr(0,1);
+                            var imgSrc = "";
+                            if(type=="Q"){
+                                imgSrc = urlHost + public_photo[i].url.split(" ")[2] + "-thumb.photo.web";
+                            }else{
+                                imgSrc = public_photo[i].url.split(" ")[2];
+                            }
                             html += `<img onClick="ban(this,` + public_photo[i].id + `)" data-id=${public_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#public").append(html);
@@ -203,6 +216,13 @@
                         var html = ""
                         for (var i = 0; i < private_photo.length; i++) {
                             var imgSrc = contains(private_photo[i].url, " ") ? urlHost + private_photo[i].url.split(" ")[2] + "-thumb.photo.web" : private_photo[i].url;
+                            var type = private_photo[i].url.substr(0,1);
+                            var imgSrc = "";
+                            if(type=="Q"){
+                                imgSrc = urlHost + private_photo[i].url.split(" ")[2] + "-thumb.photo.web";
+                            }else{
+                                imgSrc = private_photo[i].url.split(" ")[2];
+                            }
                             html += `<img onClick="ban(this,` + private_photo[i].id + `)" data-id=${private_photo[i].id} width='140px' src=` + imgSrc + `>&nbsp;&nbsp;&nbsp;`
                         }
                         $("#private").append(html);

@@ -197,7 +197,13 @@
                     if (row.avatar == null || row.avatar == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatar, " ") ? urlHost + row.avatar.split(" ")[2] + "-thumb.photo.web" : row.avatar;
+                    var type = row.avatar.substr(0,1);
+                    var imgSrc = "";
+                    if(type=="Q"){
+                        imgSrc = urlHost + row.avatar.split(" ")[2] + "-thumb.photo.web";
+                    }else{
+                        imgSrc = row.avatar.split(" ")[2];
+                    }
                     return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -259,7 +265,13 @@
                     if (row.avatarCheckURL == null || row.avatarCheckURL == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.avatarCheckURL, " ") ? urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web" : row.avatarCheckURL;
+                    var type = row.avatarCheckURL.substr(0,1);
+                    var imgSrc = "";
+                    if(type=="Q"){
+                        imgSrc = urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web";
+                    }else{
+                        imgSrc = row.avatarCheckURL.split(" ")[2];
+                    }
                     return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
                 }
             }, {
@@ -282,7 +294,13 @@
                     if (row.certificateImgUrl == null || row.certificateImgUrl == undefined) {
                         return "";
                     }
-                    var imgSrc = contains(row.certificateImgUrl, " ") ? urlHost + row.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : row.certificateImgUrl;
+                    var type = row.certificateImgUrl.substr(0,1);
+                    var imgSrc = "";
+                    if(type=="Q"){
+                        imgSrc = urlHost + row.certificateImgUrl.split(" ")[2] + "-thumb.photo.web";
+                    }else{
+                        imgSrc = row.certificateImgUrl.split(" ")[2];
+                    }
                     return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
                 }
             }, {

@@ -83,7 +83,7 @@
             fromData.append("imgs", $("#imgs")[0].files[0]);
             $.ajax({
                 method: 'POST',
-                url: apiHost + "manage/topic/save",
+                url: apiHost + "manage/postType/add",
                 data: fromData,
                 cache: false,
                 processData: false,

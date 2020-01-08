@@ -33,6 +33,11 @@
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<input type="text" class="input-text" style="width:250px" placeholder="举报用户ID" id="userId" name="">
 		<input type="text" class="input-text" style="width:250px" placeholder="被举报用户ID" id="otherId" name="">
+		<label>封禁状态</label><select type="text" class="input-text" style="width:100px" id="ban" name="ban">
+			<option value="">全部</option>
+			<option value="0" selected>未封禁</option>
+			<option value="1">已封禁</option>
+		</select>
 
 		<button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
@@ -174,6 +179,7 @@
             "mtoken": sessionStorage.getItem('mToken'),
             "userId":$("#userId").val(),
             "otherId":$("#otherId").val(),
+			"ban":$("#ban").val(),
             "offset": params.offset,
             "size": params.limit
         };

@@ -198,7 +198,7 @@
                 "class": "td-todayWord",
                 width: 80,
                 formatter: function (value, row) {
-                    if (row.imgUrl == null || row.imgUrl == undefined) {
+                    if (row.imgUrl == "" || row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
                     }
                     var type = row.imgUrl.substr(0,1);

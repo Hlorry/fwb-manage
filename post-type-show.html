@@ -76,11 +76,11 @@
         $("#save").on("click", function () {
             var fromData = new FormData();
             fromData.append("mtoken", sessionStorage.getItem('mToken'));
-            fromData.append("name", $("#name").val());
+            fromData.append("title", $("#name").val());
             fromData.append("type", $("#type").val());
             fromData.append("description", $("#description").val());
             fromData.append("status", $("#status").val());
-            fromData.append("imgs", $("#imgs")[0].files[0]);
+            fromData.append("img", $("#imgs")[0].files[0]);
             $.ajax({
                 method: 'POST',
                 url: apiHost + "manage/postType/add",
@@ -88,6 +88,7 @@
                 cache: false,
                 processData: false,
                 contentType: false,
+                dataType: "json",
                 success: function (data) {
                     layer.msg('成功!', {icon: 6, time: 1000});
                 },

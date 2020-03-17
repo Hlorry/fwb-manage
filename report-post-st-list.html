@@ -27,36 +27,35 @@
     <title>意见反馈</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 意见反馈 <span
-        class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
-                                              href="javascript:location.replace(location.href);" title="刷新"><i
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 举报管理 <span
+        class="c-gray en">&gt;</span> 帖子举报统计 <a class="btn btn-success radius r"
+                                                style="line-height:1.6em;margin-top:3px"
+                                                href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <div class="text-c"> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
-               class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
-               class="input-text Wdate" style="width:120px;">
-        <button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
+
+    <div class="text-c">
+        <label>封禁状态</label><select type="text" class="input-text" style="width:100px" id="ban" name="ban">
+        <option value="">全部</option>
+        <option value="0" selected>未封禁</option>
+        <option value="1">已封禁</option>
+    </select>
+        <button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i>
+            搜索
         </button>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr class="text-c">
-                <th><input type="checkbox" name="" value=""></th>
-                <th>ID</th>
-                <th>用户名</th>
-                <th>留言内容</th>
-                <th>图片</th>
-                <th>设备类型</th>
-                <th>系统版本</th>
-                <th>应用版本</th>
-                <th>回复内容</th>
-                <th>回复时间</th>
-                <th>留言时间</th>
-                <th>操作</th>
+                <th>被举报者Id</th>
+                <th>被举报者用户名</th>
+                <th>帖子ID</th>
+                <th>帖子title</th>
+                <th>帖子图片</th>
+                <th>被举报次数</th>
+                <th>封禁状态</th>
+                <th width="30">操作</th>
             </tr>
             </thead>
         </table>
@@ -83,7 +82,7 @@
     $(function () {
 
         $('.table-sort').bootstrapTable({
-            url: apiHost + "manage/feedback/list",
+            url: apiHost + "manage/report/post/statistics",
             method: 'post',
             dataType: "json",
             cache: false,
@@ -98,36 +97,32 @@
             minimumCountColumns: 2,
             queryParams: queryParams,
             responseHandler: function (result) {
-                console.log(result);
+                console.log(result)
                 if (result.code == 2001) {
                     parent.location.href = "login.html";
                 }
                 return {
                     total: result.data.count, //总页数,前面的key必须为"total"
-                    rows: result.data.feedBacks //行数据，前面的key要与之前设置的dataField的值一致.
+                    rows: result.data.reports //行数据，前面的key要与之前设置的dataField的值一致.
                 };
             },
             columns: [{
-                title: '',
-                field: 'id',
-                formatter: function (value, row) {
-                    return '<input type="checkbox" value="' + row.id + '" name="">';
-                }
+                title: '被举报者ID',
+                field: 'userId'
             }, {
-                title: 'id',
-                field: 'id',
-                width: 80,
+                title: '被举报者用户名',
+                field: 'userName'
             }, {
-                title: '用户名',
-                field: 'userName',
-                width: 80,
+                title: '帖子Id',
+                field: 'cmId'
             }, {
-                title: '反馈内容',
+                title: '帖子标题',
                 field: 'content'
             }, {
-                title: '图片',
+                title: '帖子图片',
                 field: 'imgUrl',
                 "class": "td-todayWord",
+                width: 80,
                 formatter: function (value, row) {
                     if (row.imgUrl == null || row.imgUrl == undefined) {
                         return "";
@@ -138,54 +133,35 @@
                         imgSrc = urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web";
                     }else{
                         imgSrc = row.imgUrl.split(" ")[2];
-                        //var index = imgSrc .lastIndexOf(".");
-                        //var exten = imgSrc .substring(index + 1, imgSrc .length);
-                        //var front = imgSrc .substring(0, index);
-                        //imgSrc = front+"_100-177-10."+exten;
+                        var index = imgSrc.lastIndexOf(".");
+                        var exten = imgSrc.substring(index + 1, imgSrc .length);
+                        var front = imgSrc.substring(0, index);
+                        imgSrc = front+"_400-400-10."+exten;
                     }
-                    return '<img onClick="addClick(this)" style="width: 50px" src="' + imgSrc + '"/>';
+                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
+                    return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {
-                title: '设备类型',
-                field: 'deviceModel'
+                title: '举报次数',
+                field: 'count'
             }, {
-                title: '系统版本',
-                field: 'systemVersion'
-            }, {
-                title: '应用版本',
-                field: 'appVersion'
-            }, {
-                title: '回复内容',
-                field: 'response'
-            }, {
-                title: '回复时间',
-                field: 'responseTime',
-                width: 150,
-                formatter: function (value) {
-                    if (value == null) {
-                        return "";
+                title: '封禁状态',
+                field: 'status',
+                formatter: function (value, row) {
+                    var ret = row.status == 1 ? "已封禁" : "正常";
+                    if (row.status == 1) {
+                        return '<span class="label label-danger radius">' + ret + '</span>';
+                    } else {
+                        return '<span class="label label-success radius">' + ret + '</span>';
                     }
-                    return timestampToTime(value);
-                }
-            }, {
-                title: '创建时间',
-                field: 'createTime',
-                width: 150,
-                formatter: function (value) {
-                    if (value == null) {
-                        return "";
-                    }
-                    return timestampToTime(value);
                 }
             }, {
                 title: '操作',
                 field: 'response',
                 width: 40,
                 formatter: function (value, row) {
-                    if (row.responseTime == null) {
-                        return '<a style="text-decoration:none" onClick="response(this,' + row.id + ',' + row.userId + ')"href="javascript:;" title="回复"><i class="Hui-iconfont">&#xe6df;</i></a>';
-                    } else {
-                        return "";
+                    if (row.status == 0) {
+                        return '<a style="text-decoration:none" onClick="ban(this,' + row.cmId + ')"href="javascript:;" title="封禁"><i class="Hui-iconfont"><span style="color: red">&#xe631;</span></i></a>';
                     }
                 }
             }]
@@ -201,39 +177,33 @@
         return {
             "mtoken": sessionStorage.getItem('mToken'),
             "offset": params.offset,
-            "size": params.limit
+            "ban": $("#ban").val(),
+            "size":
+            params.limit
         };
     }
 
-
-    /*用户-停用*/
-    function response(obj, id, userId) {
-        layer.open({
-            type: 1,
-            closeBtn: true,
-            shift: 7,
-            shadeClose: true,
-            content: "<div style='width:350px;'><p>请输入回复内容</p><textarea style='width: 300px;height: 150px;margin-left: 5px' id='content' class='form-control'/>" +
-                "<button style='margin-top:5%;' type='button' class='btn btn-block btn-success btn-lg' onclick='responseAjax(" + id + "," + userId + ")'>提交</button></div>"
+    /*动态-封禁*/
+    function ban(obj, id) {
+        layer.confirm('确认要封禁吗？', function (index) {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/post/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "postId": id,"ban":1},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg('封禁成功!', {icon: 6, time: 1000});
+                        $('.table-sort').bootstrapTable("refresh");
+                    } else {
+                        layer.msg('服务器错误!', {icon: 6, time: 1000});
+                    }
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
         });
-    }
-
-    function responseAjax(id, userId) {
-        var content = $("#content").val();
-        $.ajax({
-            method: 'POST',
-            url: apiHost + "manage/feedback/response",
-            data: {"mtoken": sessionStorage.getItem('mToken'), "id": id, "userId": userId, "content": content},
-            dataType: 'json',
-            success: function (data) {
-                layer.msg('回复成功!', {icon: 6, time: 1000});
-            },
-            error: function (data) {
-                console.log(data.msg);
-            },
-        });
-        layer.closeAll();
-        $('.table-sort').bootstrapTable("refresh")
     }
 
 </script>

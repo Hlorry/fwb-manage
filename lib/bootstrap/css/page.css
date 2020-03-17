@@ -28,7 +28,7 @@
 /*}*/
 .td-todayWord img.click{
     /*display: inline-block;*/
-    transform: scale(6);
+    transform: scale(3);
     position: absolute;
     left: 40%;
     top: 50%;

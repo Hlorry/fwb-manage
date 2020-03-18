@@ -195,8 +195,17 @@
                     $("#repeatNames").html(repeatNames);
                     if (user.certificateImgUrl == null) {
                         $("#certificateImgUrl").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
+                    } else if (user.certificateImgUrl.indexOf(" ") != -1) {
+                        var type = user.certificateImgUrl.substr(0,1);
+                        var imgSrc = "";
+                        if(type=="Q"){
+                            imgSrc = urlHost + user.certificateImgUrl.split(" ")[2] + "-thumb.photo.web";
+                        }else{
+                            imgSrc = user.certificateImgUrl.split(" ")[2];
+                        }
+                        $("#certificateImgUrl").attr("src", imgSrc);
                     } else {
-                        $("#certificateImgUrl").attr("src", contains(user.certificateImgUrl, " ") ? urlHost + user.certificateImgUrl.split(" ")[2] + "-thumb.photo.web" : user.certificateImgUrl);
+                        $(".avatar").attr("src", user.avatar);
                     }
                     if (public_photo.length > 0) {
                         var html = ""

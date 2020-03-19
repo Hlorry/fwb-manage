@@ -81,10 +81,30 @@
     <table class="table table-border table-bordered table-bg">
         <thead>
         <tr>
+            <th colspan="7" scope="col">今天注销封禁统计</th>
+        </tr>
+        <tr class="text-c">
+            <th>注销数</th>
+            <th>封禁数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-c">
+            <td id="logoutCount"></td>
+            <td id="banCount"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <br/>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
             <th colspan="7" scope="col">会员统计</th>
         </tr>
         <tr class="text-c">
-            <th>今日开通</th>
+            <th>今日开通总数</th>
+            <th>今日新开通数</th>
             <th>正式会员</th>
             <th>会员总数</th>
         </tr>
@@ -92,6 +112,7 @@
         <tbody>
         <tr class="text-c">
             <td id="vipToday"></td>
+            <td id="vipTodayNew"></td>
             <td id="vip">0</td>
             <td id="vipTotal"></td>
         </tr>
@@ -124,7 +145,10 @@
                     $("#rate").html((data.maleCount/data.total).toFixed(2)+" : "+((data.total-data.maleCount)/data.total).toFixed(2));
                     $("#vip").html(data.vip);
                     $("#vipToday").html(data.vipToday);
+                    $("#vipTodayNew").html(data.vipTodayNew);
                     $("#vipTotal").html(data.vipTotal);
+                    $("#banCount").html(data.banCount);
+                    $("#logoutCount").html(data.logoutCount);
                 } else {
                     layer.msg('服务器错误!', {icon: 6, time: 1000});
                 }

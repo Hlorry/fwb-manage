@@ -178,7 +178,7 @@
                 title: '用户名',
                 field: 'userName',
                 formatter: function (value, row) {
-                    if((row.lat!=0 && row.lng!=0) &&(row.lat!=-180 && row.lng!=-180) && (row.lat.toString().split(".")[1].length<8 || row.lng.toString().split(".")[1].length<8)){
+                    if((row.lat!=0 && row.lng!=0) && (row.lat!=-180 && row.lng!=-180) && ((row.lat.toString().indexOf(".")==-1 || row.lng.toString().indexOf(".")==-1)||(row.lat.toString().split(".")[1].length<8 || row.lng.toString().split(".")[1].length<8))){
                         return '<u style="cursor:pointer;color:red" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
                     }else{
                         return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';

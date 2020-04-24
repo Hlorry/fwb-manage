@@ -240,7 +240,7 @@
         $.ajax({
             method: 'POST',
             url: apiHost + "/manage/postType/list",
-            data: {"mtoken": sessionStorage.getItem('mToken')},
+            data: {"mtoken": sessionStorage.getItem('mToken')，"size":50},
             dataType: 'json',
             success: function (data) {
                 if (data.code == 200) {

@@ -36,6 +36,11 @@
         <input type="text" class="input-text" style="width:150px" placeholder="用户id" id="userId" name="">
         <input type="text" class="input-text" style="width:150px" placeholder="用户名" id="userName" name="">
         <input type="text" class="input-text" style="width:150px" placeholder="动态id" id="momentId" name="">
+        <label>媒体类型</label><select type="text" class="input-text" style="width:100px" id="mediaType" name="mediaType">
+            <option value="">全部</option>
+            <option value="0" selected>图片</option>
+            <option value="1">视频</option>
+        </select>
         <label>审核状态</label><select type="text" class="input-text" style="width:100px" id="check" name="check">
             <option value="">全部</option>
             <option value="0" selected>未审核</option>
@@ -93,7 +98,7 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
 <script type="text/javascript"
         src="https://cdn.bootcss.com/bootstrap-table/1.10.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript" src="lib/base.js"></script>
+<script type="text/javascript" src="lib/base.js?version=2"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -213,7 +218,11 @@
                         //var front = imgSrc.substring(0, index);
                         //imgSrc = front+"_400-400-10."+exten;
                     }
-                    return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
+                    if(row.mediaType==1){
+                        return '<video onClick="addClick(this)" controls="controls" style="width: 200px;" src="' + imgSrc + '"/>';
+                    }else{
+                        return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
+                    }
                 }
 
             }, {
@@ -275,6 +284,7 @@
             "userId": $("#userId").val(),
             "check": $("#check").val(),
             "ban": $("#ban").val(),
+            "mediaType": $("#mediaType").val(),
             "userName": $("#userName").val(),
             "topicId": $("#topicId").val(),
             "momentId": $("#momentId").val(),

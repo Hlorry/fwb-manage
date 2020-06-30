@@ -28,7 +28,7 @@
 /*}*/
 .td-todayWord img.click{
     /*display: inline-block;*/
-    transform: scale(3);
+    transform: scale(2);
     position: absolute;
     left: 40%;
     top: 50%;
@@ -39,13 +39,16 @@
 #public img{
     cursor: pointer;
     transition: all 0.6s;
-    width: 70px;
+    width: 100px;
 }
-#public img:hover{
-    display: inline-block;
-    transform: scale(5);
-    position:relative;
+
+#public img.hover{
+    transform: scale(2);
+    position: absolute;
+    left: 40%;
+    top: 50%;
     z-index:100;
+    transition: all 0.5s;
 }
 
 #private img{
@@ -53,9 +56,12 @@
     transition: all 0.6s;
     width: 70px;
 }
-#private img:hover{
-    display: inline-block;
-    transform: scale(5);
-    position:relative;
+
+#private img.hover{
+    transform: scale(2);
+    position: absolute;
+    left: 40%;
+    top: 50%;
     z-index:100;
+    transition: all 0.5s;
 }

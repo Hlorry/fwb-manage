@@ -34,11 +34,18 @@
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c">
-        <label>封禁状态</label><select type="text" class="input-text" style="width:100px" id="ban" name="ban">
-        <option value="">全部</option>
-        <option value="0" selected>未封禁</option>
-        <option value="1">已封禁</option>
-    </select>
+        <label>封禁状态</label>
+        <select type="text" class="input-text" style="width:100px" id="ban" name="ban">
+            <option value="">全部</option>
+            <option value="0" selected>未封禁</option>
+            <option value="1">已封禁</option>
+        </select>
+        <label>注销状态</label>
+        <select type="text" class="input-text" style="width:100px" id="logout" name="logout">
+            <option value="">全部</option>
+            <option value="0" selected>未注销</option>
+            <option value="1">已注销</option>
+        </select>
         <button type="submit" class="btn btn-success radius" id="search" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜索
         </button>
@@ -145,6 +152,7 @@
         return {
             "mtoken": sessionStorage.getItem('mToken'),
             "ban": $("#ban").val(),
+            "logout": $("#logout").val(),
             "offset": params.offset,
             "size": params.limit
         };

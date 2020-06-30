@@ -17,6 +17,7 @@ target/
 *.ipr
 *.log
 *.gz
+*.xml
 ### NetBeans ###
 nbproject/private/
 build/

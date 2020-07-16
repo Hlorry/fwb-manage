@@ -204,15 +204,19 @@
                     var type = row.imgUrl.substr(0,1);
                     var imgSrc = "";
                     if(type=="Q"){
-                        imgSrc = urlHost + row.imgUrl.split(" ")[1] + "-thumb.photo.web";
+                        imgSrc = urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web";
                     }else{
-                        imgSrc = row.imgUrl.split(" ")[1];
-                        var index = imgSrc.lastIndexOf(".");
-                        var exten = imgSrc.substring(index + 1, imgSrc.length);
-                        var front = imgSrc.substring(0, index);
-                        imgSrc = front+"_100-177-10."+exten;
+                        imgSrc = row.imgUrl.split(" ")[2];
+                        //var index = imgSrc.lastIndexOf(".");
+                        //var exten = imgSrc.substring(index + 1, imgSrc .length);
+                        //var front = imgSrc.substring(0, index);
+                        //imgSrc = front+"_400-400-10."+exten;
                     }
-                    return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
+                    if(row.mediaType==1){
+                        return '<video onClick="addClick(this)" controls="controls" style="width: 200px;" src="' + imgSrc + '"/>';
+                    }else{
+                        return '<img onClick="addClick(this)" style="width: 100px;" src="' + imgSrc + '"/>';
+                    }
                 }
 
             }, {
@@ -240,7 +244,7 @@
         $.ajax({
             method: 'POST',
             url: apiHost + "/manage/postType/list",
-            data: {"mtoken": sessionStorage.getItem('mToken')，"size":50},
+            data: {"mtoken": sessionStorage.getItem('mToken'),"size":50},
             dataType: 'json',
             success: function (data) {
                 if (data.code == 200) {

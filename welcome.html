@@ -121,6 +121,8 @@
 
 
 </div>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="lib/base.js"></script>
@@ -134,6 +136,9 @@
             dataType: 'json',
             success: function (data) {
                 console.log(data);
+                if (data.code == 2001) {
+                    parent.location.href = "login.html";
+                }
                 if (data.code == 200) {
                     data = data.data;
                     $("#total").html(data.total);

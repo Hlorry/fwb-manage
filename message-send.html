@@ -29,9 +29,21 @@
         <dt>
             <span class="f-18">融云全体消息一个小时内只能发送2次，一天只能发送三次</span>
         </dt>
-        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="message"
-                                                               style="width: 600px;height: 100px"></textarea></dd>
-        <a class="label label-success radius" id="send" href="javascript:void(0)">发送</a>
+        <span class="f-18">发送者id</span>
+        <input style="width: 50px" id="ownId"/>
+        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="message" id="messageAll" style="width: 600px;height: 100px"></textarea></dd>
+        <a class="label label-success radius" id="sendAll" href="javascript:void(0)">发送</a>
+    </dl>
+    <dl style="margin-left:80px; color:#fff">
+        <dt>
+            <span class="f-18">向单个用户发送消息</span>
+        </dt>
+        <span class="f-18">发送者id</span>
+        <input style="width: 100px" id="userId"/>
+        <span class="f-18">接收者id</span>
+        <input style="width: 100px" id="toUserId"/>
+        <dd class="pt-10 f-12" style="margin-left:0"><textarea class="message" id="message" style="width: 600px;height: 100px"></textarea></dd>
+        <a class="label label-success radius" id="sendUser" href="javascript:void(0)">发送</a>
     </dl>
 </div>
 
@@ -44,11 +56,26 @@
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script>
     $(function () {
-        $("#send").on("click", function () {
+        $("#sendUser").on("click", function () {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "/message/send/txt",
+                data: {"userId":$("#userId"),"toUserId":$("#toUserId"),"text": $("#message").val()},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('发送成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                    layer.msg('发送失败!', {icon: 5, time: 1000});
+                },
+            });
+        });
+        $("#sendAll").on("click", function () {
             $.ajax({
                 method: 'POST',
                 url: apiHost + "/rongyun/send/txt",
-                data: {"text": $(".message").val()},
+                data: {"userId":$("#userId"),"text": $("#messageAll").val()},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('发送成功!', {icon: 6, time: 1000});

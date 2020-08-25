@@ -60,7 +60,7 @@
             $.ajax({
                 method: 'POST',
                 url: apiHost + "/message/send/txt",
-                data: {"userId":$("#userId"),"toUserId":$("#toUserId"),"text": $("#message").val()},
+                data: {"userId":$("#userId").val(),"toUserId":$("#toUserId").val(),"text": $("#message").val()},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('发送成功!', {icon: 6, time: 1000});
@@ -75,7 +75,7 @@
             $.ajax({
                 method: 'POST',
                 url: apiHost + "/rongyun/send/txt",
-                data: {"userId":$("#userId"),"text": $("#messageAll").val()},
+                data: {"userId":$("#userId").val(),"text": $("#messageAll").val()},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('发送成功!', {icon: 6, time: 1000});

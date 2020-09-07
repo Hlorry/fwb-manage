@@ -132,7 +132,10 @@
             }, {
                 title: '昵称',
                 field: 'userName',
-                width: 150
+                width: 150,
+                formatter: function (value, row) {
+                    return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
+                }
             }, {
                 title: '评论内容',
                 field: 'content'
@@ -196,6 +199,15 @@
         };
     }
 
+    /*用户-查看*/
+    function member_show(title, id) {
+        var index = layer.open({
+            type: 2,
+            title: title + " 的个人详细信息",
+            content: 'member-show.html?' + id
+        });
+        layer.full(index);
+    }
 
     /*用户-停用*/
     function ban(obj, id) {

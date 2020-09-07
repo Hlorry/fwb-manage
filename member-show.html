@@ -44,6 +44,10 @@
             <td id="gender"></td>
         </tr>
         <tr>
+            <th class="text-r"><span style="color: red">封禁该用户</span>：</th>
+            <td><a class="label label-success radius" id="banUser" href="javascript:void(0)">封禁</a></td>
+        </tr>
+        <tr>
             <th class="text-r">邮箱：</th>
             <td id="email"></td>
         </tr>
@@ -210,7 +214,7 @@
                     if (public_photo.length > 0) {
                         var html = ""
                         for (var i = 0; i < public_photo.length; i++) {
-                            var type = public_photo[i].url.substr(0,1);
+                            var type = public_photo[i].imgUrl.substr(0,1);
                             var imgSrc = "";
                             if(type=="Q"){
                                 imgSrc = urlHost + public_photo[i].imgUrl.split(" ")[2] + "-thumb.photo.web";
@@ -319,6 +323,23 @@
                 method: 'POST',
                 url: apiHost + "manage/ban/deviceId",
                 data: {"mtoken": sessionStorage.getItem('mToken'), "deviceId": $("#deviceId").val()},
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('封禁成功!', {icon: 6, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                    layer.msg('封禁失败!', {icon: 5, time: 1000});
+                },
+            });
+
+        });
+
+        $("#banUser").on("click", function () {
+            $.ajax({
+                method: 'POST',
+                url: apiHost + "manage/user/ban",
+                data: {"mtoken": sessionStorage.getItem('mToken'), "userId": param.replace("?", ""),"ban":1},
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('封禁成功!', {icon: 6, time: 1000});

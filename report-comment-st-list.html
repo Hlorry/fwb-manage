@@ -108,7 +108,10 @@
                 field: 'userId'
             }, {
                 title: '被举报者用户名',
-                field: 'userName'
+                field: 'userName',
+                formatter: function (value, row) {
+                    return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
+                }
             }, {
                 title: '评论Id',
                 field: 'cmId'
@@ -156,6 +159,15 @@
         };
     }
 
+    /*用户-查看*/
+    function member_show(title, id) {
+        var index = layer.open({
+            type: 2,
+            title: title + " 的个人详细信息",
+            content: 'member-show.html?' + id
+        });
+        layer.full(index);
+    }
 
     /*用户-停用*/
     function ban(obj, id) {

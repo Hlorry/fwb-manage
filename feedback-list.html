@@ -121,6 +121,9 @@
                 title: '用户名',
                 field: 'userName',
                 width: 80,
+                formatter: function (value, row) {
+                    return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
+                }
             }, {
                 title: '反馈内容',
                 field: 'content'
@@ -216,6 +219,16 @@
             content: "<div style='width:350px;'><p>请输入回复内容</p><textarea style='width: 300px;height: 150px;margin-left: 5px' id='content' class='form-control'/>" +
                 "<button style='margin-top:5%;' type='button' class='btn btn-block btn-success btn-lg' onclick='responseAjax(" + id + "," + userId + ")'>提交</button></div>"
         });
+    }
+
+    /*用户-查看*/
+    function member_show(title, id) {
+        var index = layer.open({
+            type: 2,
+            title: title + " 的个人详细信息",
+            content: 'member-show.html?' + id
+        });
+        layer.full(index);
     }
 
     function responseAjax(id, userId) {

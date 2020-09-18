@@ -44,10 +44,6 @@
             <td id="gender"></td>
         </tr>
         <tr>
-            <th class="text-r"><span style="color: red">封禁该用户</span>：</th>
-            <td><a class="label label-success radius" id="banUser" href="javascript:void(0)">封禁</a></td>
-        </tr>
-        <tr>
             <th class="text-r">邮箱：</th>
             <td id="email"></td>
         </tr>
@@ -94,8 +90,8 @@
             <td id="bodyShape"></td>
         </tr>
         <tr>
-            <th class="text-r">相同设备Id的账号(包含自己)：</th>
-            <td id="repeatNames"></td>
+            <th class="text-r">设备注册账号：</th>
+            <td><input style="width: 200px" id="repeatNames"/> &nbsp<a class="label label-success radius" id="banUser" href="javascript:void(0)">封禁</a></td>
         </tr>
         <tr>
             <th class="text-r">封禁设备</th>
@@ -196,7 +192,7 @@
                     $("#birthday").html(user.birthday);
                     $("#height").html(user.height);
                     $("#bodyShape").html(user.bodyShape);
-                    $("#repeatNames").html(repeatNames);
+                    $("#repeatNames").val(repeatNames);
                     if (user.certificateImgUrl == null) {
                         $("#certificateImgUrl").attr("src", "static/h-ui/images/ucnter/avatar-default.jpg");
                     } else if (user.certificateImgUrl.indexOf(" ") != -1) {

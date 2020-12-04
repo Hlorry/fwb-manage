@@ -136,12 +136,11 @@
                         imgSrc = urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web";
                     }else{
                         imgSrc = row.imgUrl.split(" ")[2];
-                        var index = imgSrc.lastIndexOf(".");
-                        var exten = imgSrc.substring(index + 1, imgSrc .length);
-                        var front = imgSrc.substring(0, index);
-                        imgSrc = front+"_400-400-10."+exten;
+                        //var index = imgSrc .lastIndexOf(".");
+                        //var exten = imgSrc .substring(index + 1, imgSrc .length);
+                        //var front = imgSrc .substring(0, index);
+                        //imgSrc = front+"_100-177-10."+exten;
                     }
-                    var imgSrc = contains(row.imgUrl, " ") ? urlHost + row.imgUrl.split(" ")[2] + "-thumb.photo.web" : row.imgUrl;
                     return '<img onClick="addClick(this)" style="width: 50px;" src="' + imgSrc + '"/>';
                 }
             }, {

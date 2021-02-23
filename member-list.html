@@ -35,7 +35,7 @@
         <input type="text" class="input-text" style="width:100px" placeholder="邮箱" id="email" name="email">
         <input type="text" class="input-text" style="width:100px" placeholder="用户名" id="userName" name="userName">
         <input type="text" class="input-text" style="width:100px" placeholder="用户id" id="userId" name="userId">
-
+        <input type="text" class="input-text" style="width:100px" placeholder="aboutme" id="aboutme" name="aboutme">
         <label>国家</label>
         <select type="text" class="input-text" style="width:100px" id="country" name="country">
 
@@ -99,6 +99,7 @@
                 <th width="90">昵称</th>
                 <th width="90">头像</th>
                 <th width="150">邮箱</th>
+                <th width="150">aboutme</th>
                 <th width="150">注册ip</th>
                 <th width="150">最近登陆ip</th>
                 <th width="70">版本号</th>
@@ -178,12 +179,12 @@
                 title: '用户名',
                 field: 'userName',
                 formatter: function (value, row) {
-                    if((row.lat!=0 && row.lng!=0) && (row.lat!=-180 && row.lng!=-180) && ((row.lat.toString().indexOf(".")==-1 || row.lng.toString().indexOf(".")==-1)||(row.lat.toString().split(".")[1].length<8 || row.lng.toString().split(".")[1].length<8))){
+                    if ((row.lat != 0 && row.lng != 0) && (row.lat != -180 && row.lng != -180) && ((row.lat.toString().indexOf(".") == -1 || row.lng.toString().indexOf(".") == -1) || (row.lat.toString().split(".")[1].length < 8 || row.lng.toString().split(".")[1].length < 8))) {
                         return '<u style="cursor:pointer;color:red" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
-                    }else{
+                    } else {
                         return '<u style="cursor:pointer" class="text-primary"onclick="member_show(\'' + row.userName + '\',\'' + row.userId + '\')">' + row.userName + '</u>';
                     }
-                 }
+                }
             }, {
                 title: '性别',
                 field: 'gender',
@@ -205,11 +206,11 @@
                     if (row.avatar == null || row.avatar == undefined) {
                         return "";
                     }
-                    var type = row.avatar.substr(0,1);
+                    var type = row.avatar.substr(0, 1);
                     var imgSrc = "";
-                    if(type=="Q"){
+                    if (type == "Q") {
                         imgSrc = urlHost + row.avatar.split(" ")[2] + "-thumb.photo.web";
-                    }else{
+                    } else {
                         imgSrc = row.avatar.split(" ")[2];
                         //var index = imgSrc .lastIndexOf(".");
                         //var exten = imgSrc .substring(index + 1, imgSrc .length);
@@ -221,6 +222,9 @@
             }, {
                 title: 'email',
                 field: 'email'
+            }, {
+                title: 'aboutme',
+                field: 'aboutme'
             }, {
                 title: '注册ip',
                 field: 'ip'
@@ -280,11 +284,11 @@
                     if (row.avatarCheckURL == null || row.avatarCheckURL == undefined) {
                         return "";
                     }
-                    var type = row.avatarCheckURL.substr(0,1);
+                    var type = row.avatarCheckURL.substr(0, 1);
                     var imgSrc = "";
-                    if(type=="Q"){
+                    if (type == "Q") {
                         imgSrc = urlHost + row.avatarCheckURL.split(" ")[2] + "-thumb.photo.web";
-                    }else{
+                    } else {
                         imgSrc = row.avatarCheckURL.split(" ")[2];
                         //var index = imgSrc .lastIndexOf(".");
                         //var exten = imgSrc .substring(index + 1, imgSrc .length);
@@ -313,11 +317,11 @@
                     if (row.certificateImgUrl == null || row.certificateImgUrl == undefined) {
                         return "";
                     }
-                    var type = row.certificateImgUrl.substr(0,1);
+                    var type = row.certificateImgUrl.substr(0, 1);
                     var imgSrc = "";
-                    if(type=="Q"){
+                    if (type == "Q") {
                         imgSrc = urlHost + row.certificateImgUrl.split(" ")[2] + "-thumb.photo.web";
-                    }else{
+                    } else {
                         imgSrc = row.certificateImgUrl.split(" ")[2];
                         //var index = imgSrc .lastIndexOf(".");
                         //var exten = imgSrc .substring(index + 1, imgSrc .length);
@@ -429,6 +433,7 @@
             "email": $("#email").val(),
             "gender": $("#gender").val(),
             "userId": $("#userId").val(),
+            "about": $("#aboutme").val(),
             "country": $("#country").val(),
             "check": $("#check").val(),
             "isban": $("#isban").val(),

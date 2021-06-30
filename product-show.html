@@ -21,7 +21,7 @@
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>Topic新增</title>
+    <title>商品详情</title>
 </head>
 <body>
 
@@ -29,13 +29,21 @@
     <table class="table">
         <tbody>
         <tr>
-            <th class="text-r" width="120">name：</th>
+            <th class="text-r" width="80">productId：</th>
+            <td><input name="productId" id="productId" style="width: 200px"/></td>
+            <td><input name="id" id="id" hidden="hidden" style="width: 200px"/></td>
+        </tr>
+        <tr>
+            <th class="text-r" width="80">name：</th>
             <td><input name="name" id="name" style="width: 200px"/></td>
         </tr>
         <tr>
             <th class="text-r" width="120">description：</th>
-            <td><textarea name="description" style="width: 200px;height: 200px" id="description"
-                          style="width: 200px"></textarea></td>
+            <td><textarea name="des" style="width: 200px;height: 200px" id="des" style="width: 200px"></textarea></td>
+        </tr>
+        <tr>
+            <th class="text-r" width="80">price：</th>
+            <td><input name="price" id="price" style="width: 200px"/></td>
         </tr>
         <tr>
             <th class="text-r">状态：</th>
@@ -46,18 +54,12 @@
                 </select></td>
         </tr>
         <tr>
-            <th class="text-r">图片存储：</th>
+            <th class="text-r">商品类型：</th>
             <td>
                 <select type="text" name="type" class="input-text" style="width:100px" id="type">
-                    <option value="0">本地</option>
-                    <option value="1">七牛</option>
+                    <option value="0">充值</option>
+                    <option value="1">消费</option>
                 </select></td>
-        </tr>
-        <tr>
-            <th class="text-r">图片：</th>
-            <td><input name="imgs" type="file" multiple="multiple" accept="image/gif,image/jpeg,image/jpg,image/png"
-                       width="70px"
-                       height="70px" id="imgs"/></td>
         </tr>
         </tbody>
     </table>
@@ -73,18 +75,43 @@
 <script type="text/javascript" src="lib/base.js"></script>
 <script type="text/javascript" src="lib/checkCookie.js"></script>
 <script>
+    var param = window.location.search;
     $(function () {
+        $.ajax({
+            method: 'POST',
+            url: apiHost + "manage/product/detail",
+            data: {"mtoken": sessionStorage.getItem('mToken'), "productId": param.replace("?", "")},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if (data.code == 200) {
+                    if (data.data.product != null) {
+                        $("#productId").val(data.data.product.productId);
+                        $("#name").val(data.data.product.name);
+                        $("#des").val(data.data.product.des);
+                        $("#type").val(data.data.product.type);
+                        $("#price").val(data.data.product.price);
+                        $("#status").val(data.data.product.status);
+                        $("#id").val(data.data.product.id);
+                    }
+                }
+            }
+        });
+
         $("#save").on("click", function () {
             var fromData = new FormData();
+            var action = $("#id").val() === "" ? "add" : "update";
             fromData.append("mtoken", sessionStorage.getItem('mToken'));
+            fromData.append("id", $("#id").val());
             fromData.append("name", $("#name").val());
-            fromData.append("type", $("#type").val());
-            fromData.append("description", $("#description").val());
+            fromData.append("productId", $("#productId").val());
+            fromData.append("des", $("#des").val());
             fromData.append("status", $("#status").val());
-            fromData.append("imgs", $("#imgs")[0].files[0]);
+            fromData.append("price", $("#price").val());
+            fromData.append("type", $("#type").val());
             $.ajax({
                 method: 'POST',
-                url: apiHost + "manage/topic/save",
+                url: apiHost + "manage/product/" + action,
                 data: fromData,
                 cache: false,
                 processData: false,
